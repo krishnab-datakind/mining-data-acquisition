@@ -31,10 +31,11 @@ from .pointsImageryRequest import PointImageryRequest
 class PointRequestBuilder(abcRequestBuilder):
 
     def __init__(self):
-        self.request = PointRequestBuilder()
+        self.request = PointImageryRequest()
 
-    def originate_request(self):
-        pass
+    def originate_request(self, file):
+        self.request.set_geodataframe(file)
+
 
     def validate_request(self):
         pass

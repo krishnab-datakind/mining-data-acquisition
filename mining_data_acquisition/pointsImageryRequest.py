@@ -28,12 +28,17 @@ __status__ = 'pre-alpha'
 
 from .abcRequest import abcRequest
 from aenum import extend_enum
-
+import geopandas as gpd
 
 class PointImageryRequest(abcRequest):
 
 
 
+    class Composites(Enum):
+        none = 'none'
+        monthly = 'monthly'
+        quarterly = 'quarterly'
+        yearly = 'yearly'
 
 
     def __init__(self):
@@ -45,7 +50,7 @@ class PointImageryRequest(abcRequest):
         self.compositedFlag = False
         self.startdate = None
         self.enddate = None
-
+        self.geodataframe = None
 
     def get_imageryCollection(self):
         return self.imageryCollection
@@ -71,6 +76,29 @@ class PointImageryRequest(abcRequest):
     def set_status(self, candidate):
         self.status = ValidationLogic.isStatus(candidate)
 
+    def set_geodataframe(self, candidate):
+
+        self.geodataframe = ValidationLogic.isValidSpatialFile(candidate)
+        candidate_epsg =  self.geodataframe.crs['init'].replace('epsg:', '')
+        self.set_epsg(candidate_epsg)
+
+    def set_epsg(self, candidate):
+        self.epsg = ValidationLogic.isInteger(ValidationLogic.isNegative(candidate))
+
+    def set_startdate(self, candidate):
+        self.startdate = ValidationLogic.is_date_string(candidate)
+
+    def set_enddate(self, candidate):
+        self.enddate = ValidationLogic.is_date_string(candidate)
+
+    def set_bands(self, candidate):
+        self.bands = ValidationLogic.islist(candidate)
+
+    def set_radius(self, candidate):
+        self.radius =
+
+    def set_
+
     def add_statuses_to_request(self):
         # add additional statuses to enum if needed.
 
@@ -87,7 +115,51 @@ class ValidationLogic:
         else:
             return value
 
+    @classmethod
+    def isValidSpatialFile(cls, value):
+        try:
+            return(gpd.read_file(value))
+        except:
+            raise(NotValidSpatialFile)
 
+
+    @classmethod
+    def isInteger(cls, value):
+        try:
+            return int(value)
+        except ValueError as e:
+            raise IsNotInteger(e)
+
+
+    @classmethod
+    def isPositive(cls, value):
+        if float(value) < 0:
+            raise IsNegativeValue(value)
+        else:
+            return value
+
+
+    @classmethod
+    def isstring(cls, value):
+        if (isinstance(value, str)):
+            return value
+        else:
+            raise IsNotString
+
+    @classmethod
+    def islist(cls, value):
+
+        if (isinstance(value, list)):
+            return value
+        else:
+            raise IsNotList
+
+    @classmethod
+    def is_date_string(cls, candidate):
+        try:
+            return datetime.strptime(candidate, DATEFMT).date()
+        except ValueError:
+            raise IsNotFormattedDate
 
 class Error(Exception):
     """Base class for exceptions in this module."""
@@ -97,6 +169,34 @@ class Error(Exception):
 class NotStatusError(Error):
     def __init__(self, evalue):
         print('The value provided for the Request status must be a valid status.\n' + str(evalue))
+
+class NotValidSpatialFile(Error):
+    def __init__(self,evalue):
+        print('The file provided is not a valid GeoJson or spatial file.\n' + str(evalue))
+
+class IsNotInteger(Error):
+    def __init__(self, evalue):
+        print('The value entered is not an integer: ' + str(evalue))
+
+class IsNotFloat(Error):
+    def __init__(self, evalue):
+        print('The value entered is not a float value: ' + str(evalue))
+
+class IsNegativeValue(Error):
+    def __init__(self, evalue):
+        print('The value entered is a negative value. Negative values are not permitted for this variable: ' + str(evalue))
+
+class IsNotString(Error):
+    def __init__(self, evalue):
+        print('The value entered is not a value URL: ' + str(evalue))
+
+class IsNotList(Error):
+    def __init__(self, evalue):
+        print('The value entered is not a value list of values: ' + str(evalue))
+
+class IsNotFormattedDate(Error):
+    def __init__(self, evalue):
+        print('The value provided is not a correctly formatted date value.\n Please provide a date in the format of mm/dd/yyyy')
 
 class Tests:
 
