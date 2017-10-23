@@ -26,36 +26,36 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-
+from .abcRequest import abcRequest
 
 class RequestDirector():
 
     def __init__(self):
-        pass
+        self.builder = None
+
+    def construct(self, builder):
+        self.builder = builder
+        self.builder.originate_request():
+        self.builder.validate_request():
+        self.builder.assign_data():
 
 
 
 class ValidationLogic:
 
     @classmethod
-    def isnotinteger(cls, value):
-        try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
-
-
-
-
+    def isBuilder(value):
+        if not isinstance(value, abcRequest):
+            raise(NotARequest)
 
 
 class Error(Exception):
     """Base class for exceptions in this module."""
     pass
 
-class Error1(Error):
+class NotARequest(Error):
     def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
+        print('The RequestDirector() takes a Builder class as its argument.\n ' + str(evalue))
 
 
 

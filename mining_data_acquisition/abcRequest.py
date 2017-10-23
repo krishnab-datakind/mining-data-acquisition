@@ -18,47 +18,87 @@ Abstract Base Class for Request class
 
 
 __author__ = 'krishna bhogaonker'
-__copyright__ = 'copyright '
+__copyright__ = 'copyright 2017'
 __credits__ = ['krishna bhogaonker']
 __license__ = "MIT"
-__version__ = ''
+__version__ = '0.1.0'
 __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
-__status__ = ''
+__status__ = 'pre-alpha'
 
 
 import abc
+from urlparse import urlparse
 
 class abcRequest(metaclass=abc.ABCMeta):
 
-    def __init__(self, successor=None):
-        if ValidationLogic.isSuccessor:
-            self._successor = successor
+    class Status(Enum):
+        open = 1
+        close = 0
+        rejected = 2
+        error = 3
 
+    def __init__(self):
 
+        self.id = uuid.uuid5()  # unique id for request
+        self.status = abcRequest.Status.open # request status
+        self.urllist = []
+
+    def get_id(self):
+        return self.id
+
+    def get_status(self):
+        return self.status
+
+    def get_urllist(self):
+        return self.urllist
+
+    def set_status(self, candidate):
+        self.status = ValidationLogic.isStatus(candidate)
+
+    def add_to_urllist(self, candidate):
+        self.urllist.append(ValidationLogic.isURL(candidate))
 
     @abc.abstractmethod
-    def handle_request(self):
+    def originate_request(self):
         pass
 
+    @abc.abstractmethod
+    def validate_request(self):
+        pass
+
+    @abc.abstractmethod
+    def assign_data(self):
+        pass
 
 class ValidationLogic:
 
     @classmethod
-    def isSuccessor(value):
-        if not isinstance(value, Handler):
-            raise(NotAHandler)
+    def isStatus(cls, value):
+        if not (value in abcRequest.Status.__members__):
+            raise(NotStatusError)
+        else:
+            return value
 
-
+    def isURL(cls, value):
+        try:
+            result = urlparse(value)
+            if (result.scheme and result.netloc and result.path):
+                return(value)
+        except:
+            raise(NotAURL)
 
 class Error(Exception):
     """Base class for exceptions in this module."""
     pass
 
-class NotAHandler(Error):
+class NotStatusError(Error):
     def __init__(self, evalue):
-        print('The value entered is not a handler: ' + str(evalue))
+        print('The value provided for the Request status must be a valid status.\n' + str(evalue))
 
+class NotAURL(Error):
+    def __init__(self, evalue):
+        print('The value provided is not a valid URL.\n' + str(evalue))
 
 if __name__ == "__main__":
     print("This is an abstract base class. No functionality available here.")
