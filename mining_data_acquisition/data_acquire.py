@@ -5,6 +5,7 @@
 import click
 from enum import Enum
 from .imageCollections import ImageCollection
+from .requestDirector import RequestDirector
 
 @click.group()
 @click.option('--date', nargs=2, type=str, help='beginning and end date range')
@@ -15,6 +16,14 @@ def main(args=None):
     click.echo("Replace this message by putting your code into "
                "dk_earth_engine_downloader.cli.main")
 
+
+    # TODO add the correct variable name here for var
+    request = build_request(var)
+
+
+
+
+
 @click.command()
 @click.option('--radius', type=(int, float), help='image radius around location')
 def points():
@@ -22,6 +31,15 @@ def points():
 
 
 
+def build_request(builder):
+
+    # TODO this might not work on the builder() since it is a variable. Fix later.
+    # TODO need to have a
+    tempRequest = builder()
+    director = RequestDirector()
+    director.construct(tempRequest)
+    newRequest = tempRequest.request
+    return(newRequest)
 
 
 def register_sat_image_collections():

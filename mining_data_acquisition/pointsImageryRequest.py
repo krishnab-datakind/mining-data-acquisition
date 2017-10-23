@@ -27,28 +27,65 @@ __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
 from .abcRequest import abcRequest
+from aenum import extend_enum
 
 
-class PointRequest(abcRequest):
+class PointImageryRequest(abcRequest):
+
+
+
+
 
     def __init__(self):
-        pass
+        self.set_status(PointImageryRequest.Status.open)
+        self.imageryCollection = None
+        self.epsg = None
+        self.radius = None
+        self.bands = []
+        self.compositedFlag = False
+        self.startdate = None
+        self.enddate = None
 
 
+    def get_imageryCollection(self):
+        return self.imageryCollection
+
+    def get_epsg(self):
+        return self.epsg
+
+    def get_radius(self):
+        return self.radius
+
+    def get_bands(self):
+        return self.bands
+
+    def get_compositedFlag(self):
+        return self.compositedFlag
+
+    def get_startdate(self):
+        return self.startdate
+
+    def get_enddate(self):
+        return self.enddate
+
+    def set_status(self, candidate):
+        self.status = ValidationLogic.isStatus(candidate)
+
+    def add_statuses_to_request(self):
+        # add additional statuses to enum if needed.
+
+        extend_enum(PointImageryRequest.Status, 'timeout', 4 )
 
 
 
 class ValidationLogic:
 
     @classmethod
-    def isnotinteger(cls, value):
-        try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
-
-
-
+    def isStatus(cls, value):
+        if not (value in PointImageryRequest.Status.__members__):
+            raise(NotStatusError)
+        else:
+            return value
 
 
 
@@ -56,15 +93,27 @@ class Error(Exception):
     """Base class for exceptions in this module."""
     pass
 
-class Error1(Error):
+
+class NotStatusError(Error):
     def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
+        print('The value provided for the Request status must be a valid status.\n' + str(evalue))
+
+class Tests:
+
+    test = PointImageryRequest()
+
+    def test_get_status(self):
+        assert self.test.get_status() == PointImageryRequest.Status.open
+
+    def test_extend_status(self):
+        self.test.set_status(PointImageryRequest.Status.timeout)
+        assert  self.test.get_status() == PointImageryRequest.Status.timeout
 
 
 
 
 
-def main()
+
 
 
 if __name__ == "__main__":

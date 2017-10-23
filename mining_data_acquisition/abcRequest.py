@@ -28,20 +28,23 @@ __status__ = 'pre-alpha'
 
 
 import abc
-from urlparse import urlparse
+from enum import Enum
+from urllib.parse import urlparse
 
 class abcRequest(metaclass=abc.ABCMeta):
 
+
+
     class Status(Enum):
         open = 1
-        close = 0
+        closed = 0
         rejected = 2
         error = 3
 
     def __init__(self):
 
         self.id = uuid.uuid5()  # unique id for request
-        self.status = abcRequest.Status.open # request status
+        self.status = abcRequest.Status.open # request status--status codes determined in request classes
         self.urllist = []
 
     def get_id(self):
@@ -53,23 +56,23 @@ class abcRequest(metaclass=abc.ABCMeta):
     def get_urllist(self):
         return self.urllist
 
-    def set_status(self, candidate):
-        self.status = ValidationLogic.isStatus(candidate)
 
     def add_to_urllist(self, candidate):
         self.urllist.append(ValidationLogic.isURL(candidate))
 
+
     @abc.abstractmethod
-    def originate_request(self):
+    def set_status(self, candidate):
         pass
 
     @abc.abstractmethod
-    def validate_request(self):
+    def get_data(self):
         pass
 
     @abc.abstractmethod
-    def assign_data(self):
+    def set_data(self):
         pass
+
 
 class ValidationLogic:
 
@@ -99,6 +102,9 @@ class NotStatusError(Error):
 class NotAURL(Error):
     def __init__(self, evalue):
         print('The value provided is not a valid URL.\n' + str(evalue))
+
+
+
 
 if __name__ == "__main__":
     print("This is an abstract base class. No functionality available here.")
