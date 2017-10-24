@@ -240,7 +240,9 @@ class Tests:
         self.test.set_epsg(4362)
         assert self.test.get_epsg() == 4362
 
-
+    def test_import_data(self):
+        self.test.set_data('../tests/data/congo_mines.geojson')
+        assert len(self.test.geodataframe) == 2281
 
 
 if __name__ == "__main__":
