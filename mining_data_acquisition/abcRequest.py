@@ -28,7 +28,7 @@ __status__ = 'pre-alpha'
 
 
 import abc
-from enum import Enum
+from aenum import Enum
 from urllib.parse import urlparse
 
 class abcRequest(metaclass=abc.ABCMeta):
@@ -36,10 +36,10 @@ class abcRequest(metaclass=abc.ABCMeta):
 
 
     class Status(Enum):
-        open = 1
-        closed = 0
-        rejected = 2
-        error = 3
+        CLOSED = 0
+        OPEN = 1
+        REJECTED = 2
+        ERROR = 3
 
     def __init__(self):
 

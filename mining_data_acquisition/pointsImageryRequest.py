@@ -29,6 +29,9 @@ __status__ = 'pre-alpha'
 from .abcRequest import abcRequest
 from aenum import extend_enum
 import geopandas as gpd
+from enum import Enum
+
+
 
 class PointImageryRequest(abcRequest):
 
@@ -73,10 +76,13 @@ class PointImageryRequest(abcRequest):
     def get_enddate(self):
         return self.enddate
 
-    def set_status(self, candidate):
-        self.status = ValidationLogic.isStatus(candidate)
+    def get_data(self):
+        return self.geodataframe
 
-    def set_geodataframe(self, candidate):
+    def set_status(self, candidate):
+        self.status = ValidationLogic.isInEnum(super(self).Status, candidate)
+
+    def set_data(self, candidate):
 
         self.geodataframe = ValidationLogic.isValidSpatialFile(candidate)
         candidate_epsg =  self.geodataframe.crs['init'].replace('epsg:', '')
@@ -91,13 +97,27 @@ class PointImageryRequest(abcRequest):
     def set_enddate(self, candidate):
         self.enddate = ValidationLogic.is_date_string(candidate)
 
-    def set_bands(self, candidate):
-        self.bands = ValidationLogic.islist(candidate)
+    def add_band(self, candidate):
+        """
+        This function adds a single band at a time.
+        The request handler will ensure that each band requested actually exists in the imagery collection.
+
+        Essentially, each imagery collection contains specific bands.
+        The Request object does not know which bands a particular collection contains.
+        Hence a user could technically request a band that does not exist, leading to a program error.
+
+        The design here is to allow only a handler to add bands to the request.
+        The handler will have knowledge of the imagery collection as well as the candidate bands.
+        Once the handler knows that a band is valid for the requested collection, the handler will pass that band to the add_band() function.
+
+        """
+        self.bands.append(ValidationLogic.isstring(candidate))
 
     def set_radius(self, candidate):
-        self.radius =
+        self.radius = ValidationLogic.isPositive(candidate)
 
-    def set_
+    def set_compositedFlag(self, candidate):
+        self.compositedFlag = ValidationLogic.isInEnum(PointImageryRequest.Composites, candidate)
 
     def add_statuses_to_request(self):
         # add additional statuses to enum if needed.
@@ -112,6 +132,13 @@ class ValidationLogic:
     def isStatus(cls, value):
         if not (value in PointImageryRequest.Status.__members__):
             raise(NotStatusError)
+        else:
+            return value
+
+    @classmethod
+    def isInEnum(clas, enumeration, value):
+        if not (value in enumeration.__members__):
+            raise(NotInEnum)
         else:
             return value
 
@@ -170,6 +197,10 @@ class NotStatusError(Error):
     def __init__(self, evalue):
         print('The value provided for the Request status must be a valid status.\n' + str(evalue))
 
+class NotInEnum(Error):
+    def __init__(self, enumeration, evalue):
+        print('The value entered is not a valid member of the enum: ' + str(enumeration) + '\n' + str(evalue))
+
 class NotValidSpatialFile(Error):
     def __init__(self,evalue):
         print('The file provided is not a valid GeoJson or spatial file.\n' + str(evalue))
@@ -209,7 +240,17 @@ class Tests:
         self.test.set_status(PointImageryRequest.Status.timeout)
         assert  self.test.get_status() == PointImageryRequest.Status.timeout
 
+    def test_set_radius(self):
+        self.test.set_radius = 300
+        assert self.test.get_radius() == 300
 
+    def test_set_compositedFlag(self):
+        self.test.set_compositedFlag(PointImageryRequest.Composites.monthly)
+        assert self.test.get_compositedFlag() == PointImageryRequest.Composites.monthly
+
+    def test_set_epsg(self):
+        self.test.set_epsg(4362)
+        assert self.test.get_epsg() == 4362
 
 
 
