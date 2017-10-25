@@ -30,12 +30,9 @@ import ee
 class specifyImageryCollectionAdapterApiInterface:
 
 
-    def __init__(self, collectionname):
-        self.collectionname = collectionname
+    def specific_request(self, collectionname):
 
-    def specific_request(self):
-
-        return ValidationLogic.isValidCollection(self.collectionname)
+        return ValidationLogic.isValidCollection(collectionname)
 
 
 class ValidationLogic:
@@ -60,10 +57,10 @@ class InvalidCollection(Error):
 
 class Tests:
     ee.Initialize()
-    test = specifyImageryCollectionAdapterApiInterface('LANDSAT/LC8_L1T_32DAY_TOA')
+    test = specifyImageryCollectionAdapterApiInterface()
 
     def test_collection_valid(self):
-        val = self.test.specific_request()
+        val = self.test.specific_request('LANDSAT/LC8_L1T_32DAY_TOA')
         assert isinstance(val, ee.imagecollection.ImageCollection)
 
 

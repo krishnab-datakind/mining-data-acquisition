@@ -29,8 +29,9 @@ import abc
 
 class abcAdapterTarget(metaclass=abc.ABCMeta):
 
+    @abc.abstractmethod
     def __init__(self):
-        self.adaptee = Adaptee()
+        pass
 
     @abc.abstractmethod
     def request(self):

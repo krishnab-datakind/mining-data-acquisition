@@ -27,11 +27,15 @@ __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
 from .abcAdapterTarget import abcAdapterTarget
-
+from .specifyImageryCollectionAdapterApiInterface import specifyImageryCollectionAdapterApiInterface
 class SpecifyImageryCollectionAdapter(abcAdapterTarget):
 
+    def __init__(self):
+        self.adaptee = specifyImageryCollectionAdapterApiInterface()
+
     def request(self):
-        self.adaptee.special_request()
+
+        self.adaptee.special_request(collectionname)
 
 
 
