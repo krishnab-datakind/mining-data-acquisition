@@ -2,7 +2,7 @@
 
 """
 
-Adapter class to initialize Earth Engine
+Handler to set the dates for a request.
 
 """
 
@@ -25,15 +25,17 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from abcAdapterTarget import abcAdapterTarget
+from abcHandler import abcHandler
 
-class AdapterJSInitializeEE(abcAdapterTarget):
+class HandlerSetRequestDatesFullSatelliteDateRange(abcHandler):
 
     def __init__(self):
         pass
 
-    def request(self):
-        pass
+    def handle_request(self, order):
+        order.startdate = order.imageryCollection.get_ImageryCollection().get_startdate()
+        order.enddate = order.imageryCollection.get_ImageryCollection().get_enddate()
+
 
 
 class ValidationLogic:
@@ -62,8 +64,7 @@ class Error1(Error):
 
 
 
-def main():
-    pass
+def main()
 
 
 if __name__ == "__main__":

@@ -37,13 +37,9 @@ class ValidationLogic:
     @classmethod
     def validateDateRange(cls, order):
         try:
-            order.eeCollection.filter(order.startdate, order.enddate)
+            order.eeCollection.filterDate(order.startdate, order.enddate)
         except e:
             raise InvalidDateRange(e)
-
-
-
-
 
 
 class Error(Exception):
@@ -55,10 +51,14 @@ class InvalidDateRange(Error):
         print('The date range provided is invalid ' + str(evalue))
 
 
+class Tesits:
+
+    defi 2 test_date_range_filter(self):
+        tcase =
 
 
-
-def main()
+def main():
+    pass
 
 
 if __name__ == "__main__":

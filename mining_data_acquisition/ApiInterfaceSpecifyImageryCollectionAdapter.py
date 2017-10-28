@@ -32,16 +32,16 @@ class ApiInterfaceSpecifyImageryCollection:
 
     def specific_request(self, request):
 
-       return(ValidationLogic.validateImageCollection(request))
+       return(ValidationLogic.validateImageCollection(order))
 
 
 
 class ValidationLogic:
 
     @classmethod
-    def validateImageCollection(cls, value):
+    def validateImageCollection(cls, order):
         try:
-            ee.ImageCollection(value)
+            ee.ImageCollection(order.imageCollection.id)
         except:
             raise InvalidImageCollection(e)
 

@@ -35,10 +35,13 @@ def build_request(builder):
 
     # TODO this might not work on the builder() since it is a variable. Fix later.
     # TODO need to have a
+
     tempRequest = builder()
     director = RequestDirector()
     director.construct(tempRequest)
-    newRequest = tempRequest.request()
+    # TODO check if this is really tempRequest.request or tempRequest.request()
+
+    newRequest = tempRequest.request
     return(newRequest)
 
 
