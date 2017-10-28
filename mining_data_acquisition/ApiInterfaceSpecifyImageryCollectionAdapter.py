@@ -32,7 +32,7 @@ class ApiInterfaceSpecifyImageryCollection:
 
     def specific_request(self, request):
 
-       ValidationLogic.validateImageCollection(request)
+       return(ValidationLogic.validateImageCollection(request))
 
 
 

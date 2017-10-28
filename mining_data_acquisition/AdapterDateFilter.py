@@ -26,37 +26,15 @@ __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
 from abcAdapterTarget import abcAdapterTarget
+from ApiInterfacePYDateFilter import ApiInterfaceDateFilter
 
 class AdapterDateFilter(abcAdapterTarget):
 
     def __init__(self):
-        pass
+        self.apiinterface = ApiInterfaceDateFilter()
 
-    def request(self):
-        pass
-
-
-class ValidationLogic:
-
-    @classmethod
-    def isnotinteger(cls, value):
-        try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
-
-
-
-
-
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-class Error1(Error):
-    def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
+    def request(self, order):
+        self.apiinterface.specific_request(order)
 
 
 

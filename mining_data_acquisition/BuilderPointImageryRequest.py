@@ -26,15 +26,16 @@ __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
 from .abcRequestBuilder import abcRequestBuilder
-from .pointsImageryRequest import PointImageryRequest
-from .abcRequestBuilder.abcRequestBuilder import Requesttypes
-class PointRequestBuilder(abcRequestBuilder):
+from .pointImageryRequest import PointImageryRequest
+
+
+class BuilderPointImageryRequest(abcRequestBuilder):
 
     def __init__(self):
         self.request = PointImageryRequest()
 
-    def originate_request(self, file):
-        self.request.set_geodataframe(file)
+    def originate_request(self):
+        pass
 
 
     def validate_request(self):
@@ -75,7 +76,8 @@ class Tests:
         assert 1 == 1
 
 
-def main()
+def main():
+    pass
 
 
 if __name__ == "__main__":

@@ -25,21 +25,21 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-
+import ee
 
 class ApiInterfaceDateFilter:
 
-    def specific_request(self, strStartDate, strEndDate):
-
+    def specific_request(self, order):
+        ValidationLogic.validateDateRange(order)
 
 class ValidationLogic:
 
     @classmethod
-    def isnotinteger(cls, value):
+    def validateDateRange(cls, order):
         try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
+            order.eeCollection.filter(order.startdate, order.enddate)
+        except e:
+            raise InvalidDateRange(e)
 
 
 
@@ -50,9 +50,9 @@ class Error(Exception):
     """Base class for exceptions in this module."""
     pass
 
-class Error1(Error):
+class InvalidDateRange(Error):
     def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
+        print('The date range provided is invalid ' + str(evalue))
 
 
 

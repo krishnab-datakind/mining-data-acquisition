@@ -28,16 +28,16 @@ __status__ = 'pre-alpha'
 
 from .abcRequest import abcRequest
 
-class RequestDirector():
+class DirectorRequestBuilder():
 
     def __init__(self):
         self.builder = None
 
     def construct(self, builder):
         self.builder = builder
-        self.builder.originate_request():
-        self.builder.validate_request():
-        self.builder.assign_data():
+        self.builder.originate_request()
+        self.builder.validate_request()
+        self.builder.assign_data()
 
 
 
@@ -61,7 +61,8 @@ class NotARequest(Error):
 
 
 
-def main()
+def main():
+    pass
 
 
 if __name__ == "__main__":

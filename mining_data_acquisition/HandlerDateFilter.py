@@ -1,9 +1,8 @@
-
 #!/usr/bin/python
 
 """
 
-Adapter class for the SpecifyImageryCollectionHandler.
+Handler for filtering by date.
 
 """
 
@@ -26,44 +25,16 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from .abcAdapterTarget import abcAdapterTarget
-from .ApiInterfaceSpecifyImageryCollectionAdapter import ApiInterfaceSpecifyImageryCollectionAdapter
+from .abcHandler import abcHandler
+from AdapterDateFilter import AdapterDateFilter
 
-class AdapterSpecifyImageryCollection(abcAdapterTarget):
+class HandlerDateFilter(abcHandler):
 
     def __init__(self):
-        self.adaptee = ApiInterfaceSpecifyImageryCollectionAdapter()
+        self.adapter = AdapterDateFilter()
 
-    def request(self, collectionname):
-
-        return(self.adaptee.special_request(collectionname))
-
-
-
-
-class ValidationLogic:
-
-    @classmethod
-    def isnotinteger(cls, value):
-        try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
-
-
-
-
-
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-class Error1(Error):
-    def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
-
-
+    def handle_request(self, request):
+        self.adapter.request(request)
 
 
 

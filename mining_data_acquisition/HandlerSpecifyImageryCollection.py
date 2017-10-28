@@ -36,7 +36,7 @@ class HandlerSpecifyImageryCollection(abcHandler):
 
 
     def handle_request(self, req):
-        self.adapter.request(req.imageCollection)
+        req.eeCollection = self.adapter.request(req.imageCollection)
 
 
 
