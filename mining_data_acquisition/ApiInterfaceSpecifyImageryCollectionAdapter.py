@@ -32,20 +32,18 @@ class ApiInterfaceSpecifyImageryCollection:
 
     def specific_request(self, request):
 
-        if request.
+       ValidationLogic.validateImageCollection(request)
 
 
 
 class ValidationLogic:
 
     @classmethod
-    def isnotinteger(cls, value):
+    def validateImageCollection(cls, value):
         try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
-
-
+            ee.ImageCollection(value)
+        except:
+            raise InvalidImageCollection(e)
 
 
 
@@ -54,15 +52,16 @@ class Error(Exception):
     """Base class for exceptions in this module."""
     pass
 
-class Error1(Error):
+class InvalidImageCollection(Error):
     def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
+        print('Invalid image collection specified. ' + str(evalue))
 
 
 
 
 
-def main()
+def main():
+    pass
 
 
 if __name__ == "__main__":

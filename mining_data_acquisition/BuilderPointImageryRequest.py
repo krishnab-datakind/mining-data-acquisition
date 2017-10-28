@@ -27,7 +27,7 @@ __status__ = 'pre-alpha'
 
 from .abcRequestBuilder import abcRequestBuilder
 from .pointsImageryRequest import PointImageryRequest
-
+from .abcRequestBuilder.abcRequestBuilder import Requesttypes
 class PointRequestBuilder(abcRequestBuilder):
 
     def __init__(self):

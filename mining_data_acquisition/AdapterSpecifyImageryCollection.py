@@ -34,7 +34,7 @@ class AdapterSpecifyImageryCollection(abcAdapterTarget):
     def __init__(self):
         self.adaptee = ApiInterfaceSpecifyImageryCollectionAdapter()
 
-    def request(self):
+    def request(self, collectionname):
 
         self.adaptee.special_request(collectionname)
 
@@ -67,7 +67,8 @@ class Error1(Error):
 
 
 
-def main()
+def main():
+    pass
 
 
 if __name__ == "__main__":

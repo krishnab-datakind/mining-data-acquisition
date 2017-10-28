@@ -29,7 +29,7 @@ __status__ = ''
 
 
 import abc
-
+from enum import Enum
 
 class abcRequestBuilder(metaclass=abc.ABCMeta):
 

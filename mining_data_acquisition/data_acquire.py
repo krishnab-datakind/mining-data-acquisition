@@ -38,7 +38,7 @@ def build_request(builder):
     tempRequest = builder()
     director = RequestDirector()
     director.construct(tempRequest)
-    newRequest = tempRequest.request
+    newRequest = tempRequest.request()
     return(newRequest)
 
 
