@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 """
-Handler Concrete Class for calling Earth Engine and specifying the imagery collection.
 
+Adapter class for Earth Engine Date Filter
 
 """
 
@@ -17,30 +17,23 @@ Handler Concrete Class for calling Earth Engine and specifying the imagery colle
 
 
 __author__ = 'krishna bhogaonker'
-__copyright__ = 'copyright '
+__copyright__ = 'copyright 2017'
 __credits__ = ['krishna bhogaonker']
 __license__ = "MIT"
-__version__ = ''
+__version__ = '0.1.0'
 __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
-__status__ = ''
+__status__ = 'pre-alpha'
 
-from .abcHandler import abcHandler
-from .imageCollections import ImageCollection
-import ee
+from abcAdapterTarget import abcAdapterTarget
 
+class AdapterDateFilter(abcAdapterTarget):
 
-
-
-class SpecifyImageryCollectionHandler(abcHandler):
-
-    def __init__(self, imgCollection):
+    def __init__(self):
         pass
 
-
-    def handle_request(self):
-
-
+    def request(self):
+        pass
 
 
 class ValidationLogic:
@@ -65,11 +58,6 @@ class Error1(Error):
     def __init__(self, evalue):
         print('The value entered is invalid: ' + str(evalue))
 
-
-
-
-
-def main()
 
 
 if __name__ == "__main__":

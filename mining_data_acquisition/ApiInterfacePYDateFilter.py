@@ -2,7 +2,7 @@
 
 """
 
-Low Level class to handle implementation of the SpecifyImageryCollectionAdapter abstraction.
+API interface to Google Earth Engine for applying Date Filter
 
 """
 
@@ -25,47 +25,41 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-import ee
-
-class specifyImageryCollectionAdapterApiInterface:
 
 
-    def specific_request(self, collectionname):
+class ApiInterfaceDateFilter:
 
-        return ValidationLogic.isValidCollection(collectionname)
+    def specific_request(self, strStartDate, strEndDate):
 
 
 class ValidationLogic:
 
     @classmethod
-    def isValidCollection(cls, value):
+    def isnotinteger(cls, value):
         try:
-            return ee.ImageCollection(value)
+            return int(value)
+        except ValueError as e:
+            raise IsNotInteger(e)
 
-        except:
-            raise(InvalidCollection(value))
+
+
+
 
 
 class Error(Exception):
     """Base class for exceptions in this module."""
     pass
 
-class InvalidCollection(Error):
+class Error1(Error):
     def __init__(self, evalue):
-        print('The specified imagery collection is not recognized by Earth Engine:\n' + str(evalue))
+        print('The value entered is invalid: ' + str(evalue))
 
 
-class Tests:
-    ee.Initialize()
-    test = specifyImageryCollectionAdapterApiInterface()
-
-    def test_collection_valid(self):
-        val = self.test.specific_request('LANDSAT/LC8_L1T_32DAY_TOA')
-        assert isinstance(val, ee.imagecollection.ImageCollection)
 
 
-def main():
-    print("This is an adapter class.")
+
+def main()
+
 
 if __name__ == "__main__":
     main()

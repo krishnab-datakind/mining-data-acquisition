@@ -1,9 +1,8 @@
-
 #!/usr/bin/python
 
 """
 
-Adapter class for the SpecifyImageryCollectionHandler.
+API interface to Google Earth Engine for applying Date Filter
 
 """
 
@@ -26,18 +25,11 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from .abcAdapterTarget import abcAdapterTarget
-from .specifyImageryCollectionAdapterApiInterface import specifyImageryCollectionAdapterApiInterface
-class SpecifyImageryCollectionAdapter(abcAdapterTarget):
-
-    def __init__(self):
-        self.adaptee = specifyImageryCollectionAdapterApiInterface()
-
-    def request(self):
-
-        self.adaptee.special_request(collectionname)
 
 
+class ApiInterfaceDateFilter:
+
+    def specific_request(self, strStartDate, strEndDate):
 
 
 class ValidationLogic:

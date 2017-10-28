@@ -1,8 +1,9 @@
+
 #!/usr/bin/python
 
 """
 
-Handler for authentication to google earth engine.
+Adapter class for the SpecifyImageryCollectionHandler.
 
 """
 
@@ -25,17 +26,17 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from abcHandler import abcHandler
+from .abcAdapterTarget import abcAdapterTarget
+from .ApiInterfaceSpecifyImageryCollectionAdapter import ApiInterfaceSpecifyImageryCollectionAdapter
 
-class HandlerInitializeEarthEngine(abcHandler):
+class AdapterSpecifyImageryCollection(abcAdapterTarget):
 
     def __init__(self):
-        pass
+        self.adaptee = ApiInterfaceSpecifyImageryCollectionAdapter()
 
+    def request(self):
 
-    def handle_request(self, credentials):
-        pass
-
+        self.adaptee.special_request(collectionname)
 
 
 

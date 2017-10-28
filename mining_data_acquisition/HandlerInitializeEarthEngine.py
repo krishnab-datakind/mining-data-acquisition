@@ -2,7 +2,7 @@
 
 """
 
-Handler for authentication to google earth engine.
+Initialize Earth Engine Connection
 
 """
 
@@ -25,48 +25,14 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from abcHandler import abcHandler
+from .abcHandler import abcHandler
+import ee
 
-class HandlerInitializeEarthEngine(abcHandler):
-
-    def __init__(self):
-        pass
+class InitializeEarthEngineHandler(abcHandler):
 
 
-    def handle_request(self, credentials):
-        pass
-
-
-
-
-
-class ValidationLogic:
-
-    @classmethod
-    def isnotinteger(cls, value):
-        try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
-
-
-
-
-
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-class Error1(Error):
-    def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
-
-
-
-
-
-def main()
+    def handle_request(self):
+        ee.Initialize()
 
 
 if __name__ == "__main__":

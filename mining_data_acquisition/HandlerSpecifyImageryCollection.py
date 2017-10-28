@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 """
+Handler Concrete Class for calling Earth Engine and specifying the imagery collection.
 
-Handler for authentication to google earth engine.
 
 """
 
@@ -17,26 +17,29 @@ Handler for authentication to google earth engine.
 
 
 __author__ = 'krishna bhogaonker'
-__copyright__ = 'copyright 2017'
+__copyright__ = 'copyright '
 __credits__ = ['krishna bhogaonker']
 __license__ = "MIT"
-__version__ = '0.1.0'
+__version__ = ''
 __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
-__status__ = 'pre-alpha'
+__status__ = ''
 
-from abcHandler import abcHandler
+from .abcHandler import abcHandler
+from .imageCollections import ImageCollection
+import ee
 
-class HandlerInitializeEarthEngine(abcHandler):
 
-    def __init__(self):
+
+
+class SpecifyImageryCollectionHandler(abcHandler):
+
+    def __init__(self, imgCollection):
         pass
 
 
-    def handle_request(self, credentials):
+    def handle_request(self):
         pass
-
-
 
 
 
@@ -66,7 +69,8 @@ class Error1(Error):
 
 
 
-def main()
+def main():
+    pass
 
 
 if __name__ == "__main__":

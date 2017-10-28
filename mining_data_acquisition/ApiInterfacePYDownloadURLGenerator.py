@@ -2,7 +2,7 @@
 
 """
 
-Handler for authentication to google earth engine.
+API interface to Earth Engine to generate downloads urls.
 
 """
 
@@ -25,17 +25,12 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from abcHandler import abcHandler
 
-class HandlerInitializeEarthEngine(abcHandler):
 
-    def __init__(self):
+class ApiInterfaceJSDownloadURLGenerator:
+
+    def specific_request(self):
         pass
-
-
-    def handle_request(self, credentials):
-        pass
-
 
 
 
@@ -66,7 +61,8 @@ class Error1(Error):
 
 
 
-def main()
+def main():
+    pass
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
 
 """
 
-Handler for authentication to google earth engine.
+Low Level class to handle implementation of the SpecifyImageryCollectionAdapter abstraction.
 
 """
 
@@ -25,49 +25,47 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from abcHandler import abcHandler
+import ee
 
-class HandlerInitializeEarthEngine(abcHandler):
-
-    def __init__(self):
-        pass
+class ApiInterfaceSpecifyImageryCollectionAdapter:
 
 
-    def handle_request(self, credentials):
-        pass
+    def specific_request(self, collectionname):
 
-
-
+        return ValidationLogic.isValidCollection(collectionname)
 
 
 class ValidationLogic:
 
     @classmethod
-    def isnotinteger(cls, value):
+    def isValidCollection(cls, value):
         try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
+            return ee.ImageCollection(value)
 
-
-
-
+        except:
+            raise(InvalidCollection(value))
 
 
 class Error(Exception):
     """Base class for exceptions in this module."""
     pass
 
-class Error1(Error):
+class InvalidCollection(Error):
     def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
+        print('The specified imagery collection is not recognized by Earth Engine:\n' + str(evalue))
 
 
+class Tests:
+    ee.Initialize()
+    test = ApiInterfaceSpecifyImageryCollectionAdapter()
+
+    def test_collection_valid(self):
+        val = self.test.specific_request('LANDSAT/LC8_L1T_32DAY_TOA')
+        assert isinstance(val, ee.imagecollection.ImageCollection)
 
 
-
-def main()
-
+def main():
+    print("This is an adapter class.")
 
 if __name__ == "__main__":
     main()

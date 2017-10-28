@@ -2,7 +2,7 @@
 
 """
 
-Handler for authentication to google earth engine.
+Google Earth Engine Image Compositor Adapter
 
 """
 
@@ -25,19 +25,19 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from abcHandler import abcHandler
+from .abcAdapterTarget import abcAdapterTarget
+from .ApiInterfaceImageCompositor import ApiInterfaceImageCompositor
 
-class HandlerInitializeEarthEngine(abcHandler):
+
+class AdapterImageCompositor(abcAdapterTarget):
+
 
     def __init__(self):
-        pass
+        self.adaptee = ApiInterfaceImageCompositor()
 
+    def request(self):
 
-    def handle_request(self, credentials):
-        pass
-
-
-
+        self.adaptee.special_request(strStartDate, strEndDate)
 
 
 class ValidationLogic:

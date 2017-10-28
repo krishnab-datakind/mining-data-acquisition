@@ -2,7 +2,7 @@
 
 """
 
-Handler for authentication to google earth engine.
+API interface to Javascript Initialization of Earth Engine Interface.
 
 """
 
@@ -25,18 +25,12 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from abcHandler import abcHandler
+import js2py
 
-class HandlerInitializeEarthEngine(abcHandler):
+class ApiInterfaceJSInitializeEE:
 
-    def __init__(self):
+    def specific_request(self):
         pass
-
-
-    def handle_request(self, credentials):
-        pass
-
-
 
 
 
@@ -66,7 +60,8 @@ class Error1(Error):
 
 
 
-def main()
+def main():
+    pass
 
 
 if __name__ == "__main__":
