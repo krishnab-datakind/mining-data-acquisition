@@ -2,7 +2,7 @@
 
 """
 
-Initialize Earth Engine Connection
+Handler for authentication to google earth engine.
 
 """
 
@@ -26,13 +26,33 @@ __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
 from .abcHandler import abcHandler
-import ee
+from .AdapterInitializeEE import AdapterInitializeEE
 
-class InitializeEarthEngineHandler(abcHandler):
+class HandlerInitializeEarthEngine(abcHandler):
+
+    def __init__(self):
+        pass
 
 
     def handle_request(self):
-        ee.Initialize()
+        if True:  # if can_handle:
+            self.adapter = AdapterInitializeEE()
+            self.adapter.request()
+        elif self._successor is not None:
+            self._successor.handle_request()
+
+
+
+class Tests:
+
+    def test_request_handler(self):
+        tcase = HandlerInitializeEarthEngine()
+        tcase.handle_request()
+
+
+
+def main():
+    pass
 
 
 if __name__ == "__main__":

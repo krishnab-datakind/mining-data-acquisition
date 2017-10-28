@@ -2,7 +2,7 @@
 
 """
 
-API interface to Google Earth Engine for applying Date Filter
+Adapter to initialize earth engine.
 
 """
 
@@ -25,40 +25,25 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
+from .abcAdapterTarget import abcAdapterTarget
+from .ApiInterfacePYInitializeEE import ApiInterfacePYInitializeEE
+
+class AdapterInitializeEE(abcAdapterTarget):
+
+    def __init__(self):
+        self.apiinterface = ApiInterfacePYInitializeEE()
+    def request(self):
+        self.apiinterface.specific_request()
 
 
-class ApiInterfaceDateFilter:
-
-    def specific_request(self, strStartDate, strEndDate):
-
-
-class ValidationLogic:
-
-    @classmethod
-    def isnotinteger(cls, value):
-        try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
-
-
-
-
-
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
+def main():
     pass
 
-class Error1(Error):
-    def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
+class Tests:
 
-
-
-
-
-def main()
+    def test_authentication(self):
+        tcase = AdapterInitializeEE()
+        tcase.request()
 
 
 if __name__ == "__main__":

@@ -25,39 +25,40 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-import js2py
+import ee
 
-class ApiInterfaceJSInitializeEE:
+class ApiInterfacePYInitializeEE:
 
     def specific_request(self):
-        pass
+        ValidationLogic.validAuthentication()
 
 
 
 class ValidationLogic:
 
     @classmethod
-    def isnotinteger(cls, value):
+    def validAuthentication(cls):
         try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
-
-
-
-
+            ee.Initialize()
+        except:
+            raise NotValidAuthentication(e)
 
 
 class Error(Exception):
     """Base class for exceptions in this module."""
     pass
 
-class Error1(Error):
+class NotValidAuthentication(Error):
     def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
+        print('Unable to initialize Earth Engine. Check authentication credentials: ' + str(evalue))
 
 
 
+class Tests:
+
+    def test_initialization(self):
+        testcase = ApiInterfacePYInitializeEE()
+        testcase.specific_request()
 
 
 def main():

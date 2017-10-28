@@ -31,7 +31,7 @@ import abc
 import pytest
 
 
-class Handler(metaclass=abc.ABCMeta):
+class abcHandler(metaclass=abc.ABCMeta):
     """
     Define an interface for handling requests.
     Implement the successor link.

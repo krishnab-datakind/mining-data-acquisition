@@ -37,5 +37,8 @@ class abcAdapterTarget(metaclass=abc.ABCMeta):
     def request(self):
         pass
 
+def main():
+    pass
+
 if __name__ == "__main__":
     main()
