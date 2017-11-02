@@ -2,8 +2,8 @@
 #!/usr/bin/python
 
 """
-Abstract Base Class for Request class
 
+Adapter class for Point Bounding Box Generator
 
 """
 
@@ -26,89 +26,47 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
+from abcAdapterTarget import abcAdapterTarget
 
-import abc
-from aenum import Enum
-from urllib.parse import urlparse
-
-class abcRequest(metaclass=abc.ABCMeta):
-
-
-
-    class Status(Enum):
-        CLOSED = 0
-        OPEN = 1
-        REJECTED = 2
-        ERROR = 3
+class AdapterPointClip(abcAdapterTarget):
 
     def __init__(self):
-
-        self.id = uuid.uuid5()  # unique id for request
-        self.status = abcRequest.Status.open # request status--status codes determined in request classes
-        self.urllist = []
-
-    def get_id(self):
-        return self.id
-
-    def get_status(self):
-        return self.status
-
-    def get_urllist(self):
-        return self.urllist
-
-
-    def add_to_urllist(self, candidate):
-        self.urllist.append(ValidationLogic.isURL(candidate))
-
-
-    @abc.abstractmethod
-    def set_status(self, candidate):
         pass
 
-    @abc.abstractmethod
-    def get_data(self):
+    def request(self):
         pass
 
-    @abc.abstractmethod
-    def get_data_iterator(self):
- 	pass
-
-    @abc.abstractmethod
-    def set_data(self):
-        pass
 
 
 class ValidationLogic:
 
     @classmethod
-    def isStatus(cls, value):
-        if not (value in abcRequest.Status.__members__):
-            raise(NotStatusError)
-        else:
-            return value
-
-    def isURL(cls, value):
+    def isnotinteger(cls, value):
         try:
-            result = urlparse(value)
-            if (result.scheme and result.netloc and result.path):
-                return(value)
-        except:
-            raise(NotAURL)
+            return int(value)
+        except ValueError as e:
+            raise IsNotInteger(e)
+
+
+
+
+
 
 class Error(Exception):
     """Base class for exceptions in this module."""
     pass
 
-class NotStatusError(Error):
+class Error1(Error):
     def __init__(self, evalue):
-        print('The value provided for the Request status must be a valid status.\n' + str(evalue))
-
-class NotAURL(Error):
-    def __init__(self, evalue):
-        print('The value provided is not a valid URL.\n' + str(evalue))
+        print('The value entered is invalid: ' + str(evalue))
 
 
+
+
+
+def main():
+    pass
 
 
 if __name__ == "__main__":
-    print("This is an abstract base class. No functionality available here.")
+    main()

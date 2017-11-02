@@ -77,6 +77,9 @@ class PointImageryRequest(abcRequest):
     def get_data(self):
         return self.geodataframe
 
+    def get_data_iterator(self):
+        return self.geodataframe.iterrows()
+
     def set_status(self, candidate):
         self.status = ValidationLogic.isInEnum(candidate)
 
