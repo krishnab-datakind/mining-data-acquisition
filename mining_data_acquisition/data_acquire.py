@@ -10,6 +10,14 @@ from .Invoker import Invoker
 from .HandlerInitializeEarthEngine import HandlerInitializeEarthEngine
 from .HandlerSpecifyImageryCollection import HandlerSpecifyImageryCollection
 from .CommandSimplePointImageryRequest import CommandSimplePointImageryRequest
+from .HandlerSetRequestDatesFullSatelliteDateRange import HandlerSetRequestDatesFullSatelliteDateRange
+from .HandlerLoadPointData import HandlerLoadPointData
+from .HandlerDateFilter import HandlerDateFilter
+from .HandlerPointBoundingBox import HandlerPointBoundingBox
+from .HandlerPointClip import HandlerPointClip
+from .HandlerPointDownloadURL import HandlerPointDownloadURL
+from .HandlerURLDownloader import HandlerURLDownloader
+
 
 
 @click.group()
@@ -80,21 +88,28 @@ def register_sat_image_collections():
     }
 
 
-def InvokerSimplePointImageryRequest():
+def InvokerSimplePointImageryRequest(request):
 
-    handlers = [HandlerInitializeEarthEngine, ]
-    tmpHandlerEE = HandlerInitializeEarthEngine
+    handlers = [HandlerSetRequestDatesFullSatelliteDateRange,
+                HandlerLoadPointData,
+                HandlerInitializeEarthEngine,
+                HandlerSpecifyImageryCollection,
+                HandlerDateFilter,
+
+                ]
+
     invoker = Invoker()
-    invoker.store_command()
+
+    for c in handlers:
+        invoker.store_command(c(request))
 
 
-
-    receiver = Receiver()
-    concrete_command = ConcreteCommand(receiver)
-    invoker = Invoker()
-    invoker.store_command(concrete_command)
     invoker.execute_commands()
 
+
+def InvokerPointProcessorSimplePointImageryRequest(request):
+
+    handlers = []
 
 class RequestTypes(Enum):
     POINTIMAGERY = 1

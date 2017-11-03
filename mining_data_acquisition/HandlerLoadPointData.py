@@ -30,8 +30,8 @@ import geopandas as gpd
 
 class HandlerLoadPointData(abcHandler):
 
-    def handle_request(self, order, filename):
-        order.set_data(filename)
+    def handle(self, filename):
+        self.request.set_data(filename)
 
 
 

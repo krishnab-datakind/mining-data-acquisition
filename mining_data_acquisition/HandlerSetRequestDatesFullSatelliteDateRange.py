@@ -32,9 +32,9 @@ class HandlerSetRequestDatesFullSatelliteDateRange(abcHandler):
     def __init__(self):
         pass
 
-    def handle_request(self, order):
-        order.startdate = order.imageryCollection.get_ImageryCollection().get_startdate()
-        order.enddate = order.imageryCollection.get_ImageryCollection().get_enddate()
+    def handle(self):
+        self.request.startdate = self.request.imageryCollection.get_ImageryCollection().get_startdate()
+        self.request.enddate = self.request.imageryCollection.get_ImageryCollection().get_enddate()
 
 
 

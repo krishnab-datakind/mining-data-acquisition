@@ -37,9 +37,9 @@ class abcHandler(metaclass=abc.ABCMeta):
     Implement the successor link.
     """
 
-    def __init__(self, successor=None):
-        if ValidationLogic.isSuccessor:
-            self._successor = successor
+    def __init__(self, request):
+
+        self.request = request
 
     @abc.abstractmethod
     def handle(self):
