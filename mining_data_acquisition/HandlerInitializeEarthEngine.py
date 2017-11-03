@@ -34,12 +34,12 @@ class HandlerInitializeEarthEngine(abcHandler):
         pass
 
 
-    def handle_request(self):
+    def handle(self):
         if True:  # if can_handle:
             self.adapter = AdapterInitializeEE()
             self.adapter.request()
         elif self._successor is not None:
-            self._successor.handle_request()
+            self._successor.handle()
 
 
 
@@ -47,7 +47,7 @@ class Tests:
 
     def test_request_handler(self):
         tcase = HandlerInitializeEarthEngine()
-        tcase.handle_request()
+        tcase.handle()
 
 
 

@@ -30,6 +30,14 @@ from abcHandler import abcHandler
 
 class HandlerPointIterator(abcHandler):
 
+    def __init__(self, processor):
+        self.point_processor = processor()
+
+
+    def handle(self, request):
+
+        for p in request.get_iterator():
+            request.add_to_urllist(self.point_processor.process(p))
 
 
 

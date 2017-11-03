@@ -33,7 +33,7 @@ class HandlerDateFilter(abcHandler):
     def __init__(self):
         self.adapter = AdapterDateFilter()
 
-    def handle_request(self, order):
+    def handle(self, order):
         self.adapter.request(order)
 
 

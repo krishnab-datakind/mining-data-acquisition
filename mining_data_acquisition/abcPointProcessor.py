@@ -1,9 +1,8 @@
-
-#!/usr/bin/python
+#!/usr/bin/python3
 
 """
+abc for Point Processors
 
-Point iterator Handlers. Will iterate over points in geodataframe.
 
 """
 
@@ -26,46 +25,42 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from abcHandler import abcHandler
 
-class HandlerPointIterator(abcHandler):
 
-    def __init__(self):
-        pass
+import abc
 
-    def handle_request(self):
+
+class abcPointProcessor(metaclass=abc.ABCMeta):
+    """
+    Define an interface for handling requests.
+    Implement the successor link.
+    """
+
+    def __init__(self, successor=None):
+        if ValidationLogic.isSuccessor:
+            self._successor = successor
+
+    @abc.abstractmethod
+    def process(self):
         pass
 
 
 class ValidationLogic:
 
     @classmethod
-    def isnotinteger(cls, value):
-        try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
-
-
-
-
+    def isSuccessor(value):
+        if not isinstance(value, Handler):
+            raise(NotAHandler)
 
 
 class Error(Exception):
     """Base class for exceptions in this module."""
     pass
 
-class Error1(Error):
+class NotAHandler(Error):
     def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
-
-
-
-
-
-def main():
-    pass
+        print('The value entered is not a handler: ' + str(evalue))
 
 
 if __name__ == "__main__":
-    main()
+    print("This is an abstract base class. No functionality available here.")

@@ -42,7 +42,7 @@ class abcHandler(metaclass=abc.ABCMeta):
             self._successor = successor
 
     @abc.abstractmethod
-    def handle_request(self):
+    def handle(self):
         pass
 
 

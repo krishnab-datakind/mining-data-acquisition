@@ -80,6 +80,9 @@ class PointImageryRequest(abcRequest):
     def get_data_iterator(self):
         return self.geodataframe.iterrows()
 
+    def get_data_iterator_namedtuple(self):
+        return self.geodataframe.itertuples() 
+
     def set_status(self, candidate):
         self.status = ValidationLogic.isInEnum(candidate)
 
