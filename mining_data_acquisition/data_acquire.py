@@ -4,8 +4,13 @@
 
 import click
 from enum import Enum
-from .imageCollections import ImageCollection
+from .imageCollection import ImageCollection
 from .requestDirector import RequestDirector
+from .Invoker import Invoker
+from .HandlerInitializeEarthEngine import HandlerInitializeEarthEngine
+from .HandlerSpecifyImageryCollection import HandlerSpecifyImageryCollection
+from .CommandSimplePointImageryRequest import CommandSimplePointImageryRequest
+
 
 @click.group()
 @click.option('--date', nargs=2, type=str, help='beginning and end date range')
@@ -18,6 +23,7 @@ def main(args=None):
 
 
     # TODO add the correct variable name here for var
+
     request = build_request(var)
 
 
@@ -72,6 +78,23 @@ def register_sat_image_collections():
                                                                   '02/18/2000',
                                                                   '10/23/2017')
     }
+
+
+def InvokerSimplePointImageryRequest():
+
+    handlers = [HandlerInitializeEarthEngine, ]
+    tmpHandlerEE = HandlerInitializeEarthEngine
+    invoker = Invoker()
+    invoker.store_command()
+
+
+
+    receiver = Receiver()
+    concrete_command = ConcreteCommand(receiver)
+    invoker = Invoker()
+    invoker.store_command(concrete_command)
+    invoker.execute_commands()
+
 
 class RequestTypes(Enum):
     POINTIMAGERY = 1
