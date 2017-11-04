@@ -29,6 +29,9 @@ __status__ = 'pre-alpha'
 from .abcRequest import abcRequest
 from aenum import Enum, extend_enum
 import geopandas as gpd
+import ee
+
+ee.Initialize()
 
 class PointImageryRequest(abcRequest):
 
@@ -52,6 +55,7 @@ class PointImageryRequest(abcRequest):
         self.enddate = None
         self.geodataframe = None
         self.add_statuses_to_request()
+        self.eeCollection = None
 
     def get_imageryCollection(self):
         return self.imageryCollection
@@ -74,6 +78,9 @@ class PointImageryRequest(abcRequest):
     def get_enddate(self):
         return self.enddate
 
+    def get_eeCollection(self):
+        return self.eeCollection
+
     def get_data(self):
         return self.geodataframe
 
@@ -81,7 +88,11 @@ class PointImageryRequest(abcRequest):
         return self.geodataframe.iterrows()
 
     def get_data_iterator_namedtuple(self):
-        return self.geodataframe.itertuples() 
+        return self.geodataframe.itertuples()
+
+    def get_list_point_coordinates(self):
+
+        return [[p.geometry.x, p.geometry.y] for index, p in self.get_data_iterator()]
 
     def set_status(self, candidate):
         self.status = ValidationLogic.isInEnum(candidate)
@@ -122,6 +133,12 @@ class PointImageryRequest(abcRequest):
 
     def set_compositedFlag(self, candidate):
         self.compositedFlag = ValidationLogic.isInEnum(candidate)
+
+    def set_eeCollection(self, candidate):
+        self.eeCollection = ValidationLogic.is_valid_imagery_collection(candidate)
+
+    def set_ee_filterDate(self, start, end):
+        self.eeCollection.filterDate(start, end)
 
     def add_statuses_to_request(self):
         # add additional statuses to enum if needed.
@@ -186,6 +203,14 @@ class ValidationLogic:
         except ValueError:
             raise IsNotFormattedDate
 
+    @classmethod
+    def is_valid_imagery_collection(cls, value):
+        if (isinstance(value, ee.imagecollection.ImageCollection)):
+            return value
+        else:
+            raise IsNotImageryCollection
+
+
 class Error(Exception):
     """Base class for exceptions in this module."""
     pass
@@ -222,6 +247,11 @@ class IsNotList(Error):
 class IsNotFormattedDate(Error):
     def __init__(self, evalue):
         print('The value provided is not a correctly formatted date value.\n Please provide a date in the format of mm/dd/yyyy')
+
+class IsNotImageryCollection(Error):
+    def __init__(self, evalue):
+        print('The value provided is not a valid Earth Engine Imagery Collection.')
+
 
 class Tests:
 

@@ -71,7 +71,11 @@ class abcRequest(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def get_data_iterator(self):
- 	pass
+ 	    pass
+
+    @abc.abstractmethod
+    def get_list_point_coordinates(self):
+        pass
 
     @abc.abstractmethod
     def set_data(self):

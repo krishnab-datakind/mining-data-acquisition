@@ -95,7 +95,7 @@ def InvokerSimplePointImageryRequest(request):
                 HandlerInitializeEarthEngine,
                 HandlerSpecifyImageryCollection,
                 HandlerDateFilter,
-
+                InvokerPointProcessorSimplePointImageryRequest
                 ]
 
     invoker = Invoker()
@@ -107,9 +107,27 @@ def InvokerSimplePointImageryRequest(request):
     invoker.execute_commands()
 
 
+def Handler
+
+    pass
+
+
 def InvokerPointProcessorSimplePointImageryRequest(request):
 
-    handlers = []
+
+    pointList = request.get_list_point_coordinates()
+
+    handlers = [HandlerPointBoundingBox,
+                HandlerPointClip,
+                HandlerPointDownloadURL]
+
+    invoker = Invoker()
+
+    for c in handlers:
+        invoker.store_command(c(request))
+
+    invoker.execute_commands()
+
 
 class RequestTypes(Enum):
     POINTIMAGERY = 1

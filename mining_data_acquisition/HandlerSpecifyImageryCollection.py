@@ -31,12 +31,13 @@ from .AdapterSpecifyImageryCollection import AdapterSpecifyImageryCollection
 
 class HandlerSpecifyImageryCollection(abcHandler):
 
-    def __init__(self, imgCollection):
+    def __init__(self, request):
         self.adapter = AdapterSpecifyImageryCollection()
+        self.request = request
+        self.imageryCollection = request.get_imageryCollection().get_id()
 
-
-    def handle(self, req):
-        req.eeCollection = self.adapter.request(req.imageCollection)
+    def handle(self):
+        self.request.set_eeCollection(self.adapter.request(self.imageryCollection))
 
 
 

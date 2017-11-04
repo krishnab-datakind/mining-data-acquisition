@@ -30,7 +30,7 @@ from abcHandler import abcHandler
 
 class HandlerPointDownloadURL(abcHandler):
 
-    def handle_request(self):
+    def handle(self):
         pass
 
 

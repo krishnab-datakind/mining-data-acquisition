@@ -26,16 +26,15 @@ __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
 from .abcHandler import abcHandler
-from AdapterDateFilter import AdapterDateFilter
 
 class HandlerDateFilter(abcHandler):
 
-    def __init__(self):
-        self.adapter = AdapterDateFilter()
+    def __init__(self, request):
+        self.request = request
 
-    def handle(self, order):
-        self.adapter.request(order)
+    def handle(self):
 
+        self.request.set_ee_filterDate(self.request.get_startdate(), self.request.get_enddate())
 
 
 def main():
