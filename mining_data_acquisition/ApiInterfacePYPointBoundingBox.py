@@ -31,9 +31,14 @@ from abcApiInterface import abcApiInterface
 
 class ApiInterfacePYPointBoundingBox(abcApiInterface):
 
-    def specific_request(self):
-        pass
+    def specific_request(self,
+                         collection,
+                         coords,
+                         radius):
 
+        p = ee.Geometry.Point(coords).buffer(radius)
+
+        return collection.filterBounds(p)
 
 class ValidationLogic:
 

@@ -31,6 +31,9 @@ import abc
 from aenum import Enum
 from urllib.parse import urlparse
 
+
+DATEFMT = '%m/%d/%Y'
+
 class abcRequest(metaclass=abc.ABCMeta):
 
 

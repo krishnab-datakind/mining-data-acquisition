@@ -27,14 +27,22 @@ __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
 from abcAdapterTarget import abcAdapterTarget
+from .ApiInterfacePYPointBoundingBox import ApiInterfacePYPointBoundingBox
+
 
 class AdapterPointBoundingBox(abcAdapterTarget):
 
     def __init__(self):
         pass
 
-    def request(self):
-        pass
+    def request(self,
+                collection,
+                coords,
+                radius):
+
+        return ApiInterfacePYPointBoundingBox(collection,
+                                              coords,
+                                              radius)
 
 
 class ValidationLogic:

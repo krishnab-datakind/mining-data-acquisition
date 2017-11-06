@@ -32,11 +32,13 @@ DATEFMT = '%m/%d/%Y'
 
 class ImageCollection():
 
-    def __init__(self, id, bands, startdate, enddate):
+    def __init__(self, id, bands, startdate, enddate, resolution):
         self.id = ValidationLogic.isstring(id)
         self.bands = ValidationLogic.validate_list_of_strings(bands)
         self.startdate = ValidationLogic.is_date_string(startdate)
         self.enddate = ValidationLogic.is_date_string(enddate)
+        self.resolution = ValidationLogic.isPositive(resolution)
+
 
     def get_id(self):
         return self.id
@@ -50,6 +52,9 @@ class ImageCollection():
     def get_enddate(self):
         return self.enddate
 
+    def get_resolution(self):
+        return self.resolution
+
     def set_bands(self, candidate):
         self.bands = ValidationLogic.validate_list_of_string(candidate)
 
@@ -58,6 +63,9 @@ class ImageCollection():
 
     def set_enddate(self, candidate):
         self.enddate = ValidationLogic.is_date_string(candidate)
+
+    def set_resolution(self, candidate):
+        self.resolution = ValidationLogic.isPositive(candidate)
 
     def is_band_in_bands(self,candidate):
         if (ValidationLogic.isstring(candidate) in self.bands):
@@ -105,6 +113,12 @@ class ValidationLogic:
         except ValueError:
             raise IsNotFormattedDate
 
+    @classmethod
+    def isPositive(cls, value):
+        if float(value) < 0:
+            raise IsNegativeValue(value)
+        else:
+            return value
 
 class Error(Exception):
     """Base class for exceptions in this module."""

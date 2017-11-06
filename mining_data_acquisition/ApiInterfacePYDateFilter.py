@@ -29,15 +29,15 @@ import ee
 
 class ApiInterfaceDateFilter:
 
-    def specific_request(self, order):
-        ValidationLogic.validateDateRange(order)
+    def specific_request(self, imageryCollection, strStartDate, strEndDate):
+        return ValidationLogic.validateDateRange(imageryCollection, strStartDate, strEndDate)
 
 class ValidationLogic:
 
     @classmethod
-    def validateDateRange(cls, order):
+    def validateDateRange(cls, collection, startdate, enddate):
         try:
-            order.eeCollection.filterDate(order.startdate, order.enddate)
+            collection.filterDate(startdate, enddate)
         except e:
             raise InvalidDateRange(e)
 

@@ -33,8 +33,8 @@ class AdapterDateFilter(abcAdapterTarget):
     def __init__(self):
         self.apiinterface = ApiInterfaceDateFilter()
 
-    def request(self, order):
-        self.apiinterface.specific_request(order)
+    def request(self, imageryCollection, strStartDate, strEndDate):
+        return self.apiinterface.specific_request(imageryCollection, strStartDate, strEndDate)
 
 
 
