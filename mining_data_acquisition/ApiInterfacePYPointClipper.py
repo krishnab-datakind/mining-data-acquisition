@@ -2,7 +2,7 @@
 
 """
 
-Low Level class to handle implementation of the SpecifyImageryCollectionAdapter abstraction.
+Api Interface to Earth Engine to clip an imagery collection based on point bounding box.
 
 """
 
@@ -28,11 +28,16 @@ __status__ = 'pre-alpha'
 import ee
 from .abcApiInterface import abcApiInterface
 
+class ApiInterfacePYPointClipper(abcApiInterface):
 
-class ApiInterfaceSpecifyImageryCollectionAdapter(abcApiInterface):
 
+    def __init__(self):
+        pass
 
-    def specific_request(self, collectionname):
+    def specific_request(self,
+                         collection,
+                         coords,
+                         func):
 
         return ValidationLogic.isValidCollection(collectionname)
 

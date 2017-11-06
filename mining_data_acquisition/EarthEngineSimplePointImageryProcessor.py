@@ -2,7 +2,7 @@
 
 """
 
-Handler to generate buffer around a point
+Simple point imagery request for Earth Engine
 
 """
 
@@ -25,46 +25,34 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from abcHandler import abcHandler
+from aenum import Enum, extend_enum
+import ee
+from .AdapterSpecifyImageryCollection import AdapterSpecifyImageryCollection
+from .AdapterDateFilter import AdapterDateFilter
+from .AdapterPointBoundingBox import AdapterPointBoundingBox
+from .abcEarthEngineProcessor import abcEarthEngineProcessor
 
 
-class HandlerPointBufferGenerator():
+ee.Initialize()
 
-    def __init__(self):
-        pass
+class EarthEngineSimplePointImageryProcessor(abcEarthEngineProcessor):
 
-    def handle_request(self,):
-        pass
+    def process(self):
 
+        self.get_request().add_column_to_data('source_id')
+        self.get_request().add_column_to_data('bands')
+        self.get_request().add_column_to_data('startdate')
+        self.get_request().add_column_to_data('enddate')
 
-class ValidationLogic:
+        for index, row in self.get_request().get_data_iterator():
+            self.set_imageryCollection()
+            self.set_dateFilterToRequestDates()
+            # TODO check the order of y and x for proper filter.
+            coords = [row.Geometry.y, row.Geometry.x]
+            self.set_boundaryFilter(coords)
 
-    @classmethod
-    def isnotinteger(cls, value):
-        try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
-
-
-
-
-
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-class Error1(Error):
-    def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
+            def clipper(image):
+                image.clip()
 
 
 
-
-
-def main()
-
-
-if __name__ == "__main__":
-    main()

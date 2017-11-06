@@ -34,11 +34,28 @@ class ApiInterfacePYPointBoundingBox(abcApiInterface):
     def specific_request(self,
                          collection,
                          coords,
-                         radius):
+                         radius,
+                         func):
 
         p = ee.Geometry.Point(coords).buffer(radius)
 
-        return collection.filterBounds(p)
+        collection = collection.filterBounds(p)
+
+        def clipper(image):
+
+            return image.clip(p.bounds());
+
+        boundary = ee.Geometry.Polygon(p.bounds().getInfo().coordinates[0]).toGeoJSONString();
+
+        return collection.map(clipper)
+
+        var
+        path = img.getDownloadURL({
+            'scale': 30,
+            'crs': 'EPSG:4326',
+            'region': boundary
+        });
+
 
 class ValidationLogic:
 

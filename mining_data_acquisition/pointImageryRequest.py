@@ -127,22 +127,6 @@ class PointImageryRequest(abcRequest):
     def set_enddate(self, candidate):
         self.enddate = ValidationLogic.is_date_string(candidate)
 
-    def add_band(self, candidate):
-        """
-        This function adds a single band at a time.
-        The request handler will ensure that each band requested actually exists in the imagery collection.
-
-        Essentially, each imagery collection contains specific bands.
-        The Request object does not know which bands a particular collection contains.
-        Hence a user could technically request a band that does not exist, leading to a program error.
-
-        The design here is to allow only a handler to add bands to the request.
-        The handler will have knowledge of the imagery collection as well as the candidate bands.
-        Once the handler knows that a band is valid for the requested collection, the handler will pass that band to the add_band() function.
-
-        """
-        self.bands.append(ValidationLogic.isstring(candidate))
-
     def set_radius(self, candidate):
         self.radius = ValidationLogic.isPositive(candidate)
 
@@ -175,7 +159,25 @@ class PointImageryRequest(abcRequest):
 
         extend_enum(PointImageryRequest.Status, 'timeout', 4)
 
+    def add_band(self, candidate):
+        """
+        This function adds a single band at a time.
+        The request handler will ensure that each band requested actually exists in the imagery collection.
 
+        Essentially, each imagery collection contains specific bands.
+        The Request object does not know which bands a particular collection contains.
+        Hence a user could technically request a band that does not exist, leading to a program error.
+
+        The design here is to allow only a handler to add bands to the request.
+        The handler will have knowledge of the imagery collection as well as the candidate bands.
+        Once the handler knows that a band is valid for the requested collection, the handler will pass that band to the add_band() function.
+
+        """
+        self.bands.append(ValidationLogic.isstring(candidate))
+
+    def add_column_to_data(self, columnname):
+
+        self.get_data()[columnname] = None
 
 class ValidationLogic:
 

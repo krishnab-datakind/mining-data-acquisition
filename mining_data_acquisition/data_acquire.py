@@ -64,7 +64,8 @@ def register_sat_image_collections():
     imagecollections = {'Landsat8' : imageCollection('LANDSAT/LC08/C01/T1',
                                                       ['B1','B2','B3','B4','B5','B6','B7','B8','B9','B10','B11','BQA'],
                                                       '04/13/2011',
-                                                      '10/07/2017'),
+                                                      '10/07/2017',
+                                                       30),
                         'Landsat7' : ImageCollection('LANDSAT/LE07/C01/T1',
                                                        ['B1','B2','B3','B4','B5','B6','B7'],
                                                       '01/01/1999',
@@ -101,7 +102,7 @@ def InvokerSimplePointImageryRequest(request):
     invoker = Invoker()
 
     for c in handlers:
-        invoker.store_command(c(request))
+        invoker.store_command(c(request).handle())
 
 
     invoker.execute_commands()

@@ -65,9 +65,6 @@ class abcEarthEngineProcessor(metaclass=abc.ABCMeta):
                                                                  coords,
                                                                  self.get_request().get_radius())
 
-    def clip_imageryCollection(self, coords):
-
-        self.imageryCollection =
 
 
 

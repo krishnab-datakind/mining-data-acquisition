@@ -3,7 +3,7 @@
 
 """
 
-Api interface to earth engine to clip point imagery to buffer.
+Adapter for Point clipper based on bounding box.
 
 """
 
@@ -26,16 +26,24 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from abcApiInterface import abcApiInterface
+from abcAdapterTarget import abcAdapterTarget
+from .ApiInterfacePYPointBoundingBox import ApiInterfacePYPointBoundingBox
+from .ApiInterfacePYPointClipper import ApiInterfacePYPointClipper
 
-class ApiInterfacePYPointClip(abcApiInterface):
+
+class AdapterPointClipper(abcAdapterTarget):
 
     def __init__(self):
         pass
 
-    def specific_request(self):
-        pass
+    def request(self,
+                collection,
+                coords,
+                func):
 
+        return ApiInterfacePYPointBoundingBox(collection,
+                                              coords,
+                                              radius)
 
 
 class ValidationLogic:

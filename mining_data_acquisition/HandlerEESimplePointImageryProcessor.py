@@ -1,9 +1,8 @@
-
 #!/usr/bin/python
 
 """
 
-Adapter class for Point Bounding Box Generator
+Handler for Simple Earth Engine Point Imagery Request
 
 """
 
@@ -26,16 +25,15 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from abcAdapterTarget import abcAdapterTarget
+from abcHandler import abcHandler
+from .EarthEngineSimplePointImageryProcessor import EarthEngineSimplePointImageryProcessor
 
-class AdapterPointClip(abcAdapterTarget):
+class HandlerPointBufferGenerator():
 
-    def __init__(self):
-        pass
 
-    def request(self):
-        pass
 
+    def handle_request(self):
+        EarthEngineSimplePointImageryProcessor.process(self.get_request())
 
 
 class ValidationLogic:
@@ -64,8 +62,7 @@ class Error1(Error):
 
 
 
-def main():
-    pass
+def main()
 
 
 if __name__ == "__main__":

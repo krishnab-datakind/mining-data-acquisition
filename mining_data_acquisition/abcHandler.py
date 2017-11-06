@@ -41,6 +41,9 @@ class abcHandler(metaclass=abc.ABCMeta):
 
         self.request = request
 
+    def get_request(self):
+        return self.request
+
     @abc.abstractmethod
     def handle(self):
         pass
