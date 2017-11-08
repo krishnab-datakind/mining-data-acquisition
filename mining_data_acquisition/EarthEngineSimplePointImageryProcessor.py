@@ -39,10 +39,7 @@ class EarthEngineSimplePointImageryProcessor(abcEarthEngineProcessor):
 
     def process(self):
 
-        self.get_request().add_column_to_data('source_id')
-        self.get_request().add_column_to_data('bands')
-        self.get_request().add_column_to_data('startdate')
-        self.get_request().add_column_to_data('enddate')
+        self.add_metadata_columns_to_request_data()
 
         for index, row in self.get_request().get_data_iterator():
             self.set_imageryCollection()
@@ -51,8 +48,31 @@ class EarthEngineSimplePointImageryProcessor(abcEarthEngineProcessor):
             coords = [row.Geometry.y, row.Geometry.x]
             self.set_boundaryFilter(coords)
 
+            p = ee.Geometry.Point(coords).buffer(self.request.get_radius())
+
             def clipper(image):
-                image.clip()
+                return image.clip(p.bounds())
+
+            boundary = ee.Geometry.Polygon(p.bounds().getInfo().coordinates[0]).toGeoJSONString();
+
+            self.get_imageryCollection().map(clipper)
 
 
+            url = ee.data.makeDownloadUrl(
+                    ee.data.getDownloadId({
+                        'image': image.serialize(),
+                        'scale': '%d' % self.get_request().get_resolution(),
+                        'crs': 'EPSG:4326',
+                        'filePerBand': 'false',
+                        'name': filename,
+                        'region': boundary,
+                    }))
+
+
+    def add_metadata_columns_to_request_data(self):
+        self.get_request().add_column_to_data('source_id')
+        self.get_request().add_column_to_data('bands')
+        self.get_request().add_column_to_data('imagery_startdate')
+        self.get_request().add_column_to_data('imagery_enddate')
+        self.get_request().add_column_to_data('download_date')
 
