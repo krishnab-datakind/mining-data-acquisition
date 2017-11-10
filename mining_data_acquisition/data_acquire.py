@@ -17,22 +17,28 @@ from .HandlerPointBoundingBox import HandlerPointBoundingBox
 from .HandlerPointClip import HandlerPointClip
 from .HandlerPointDownloadURL import HandlerPointDownloadURL
 from .HandlerURLDownloader import HandlerURLDownloader
-
+from .BuilderPointImageryRequest import BuilderPointImageryRequest
 
 
 @click.group()
-@click.option('--date', nargs=2, type=str, help='beginning and end date range')
+@click.option('--startdate', nargs=1, type=str, help='beginning date of request')
+@click.option('--enddate', nargs=1, type=str, help='end date of request')
 @click.option('--dir', type=click.Path(), help='path to target directory for images')
-@click.argument('filename')
-def main(args=None):
+@click.argument('filename', type=click.Path(exists=True))
+def acquire_earth_engine(filename, dir, startdate, enddate):
     """Console script for dk_earth_engine_downloader."""
     click.echo("Replace this message by putting your code into "
-               "dk_earth_engine_downloader.cli.main")
+               "acquire_earth_engine.cli.main")
 
 
     # TODO add the correct variable name here for var
 
-    request = build_request(var)
+
+    if (request_type = RequestTypes.SIMPLEPOINTIMAGERY:
+        request = build_request(BuilderPointImageryRequest, locals())
+        InvokerPointProcessorSimplePointImageryRequest(request)
+    if (request_type = RequestTypes.COMPOSITEDPOINTIMAGERY):
+        request = build_request(BuilderPointImageryRequest, locals())
 
 
 
@@ -45,12 +51,11 @@ def points():
 
 
 
-def build_request(builder):
+def build_request(builder, argdict):
 
     # TODO this might not work on the builder() since it is a variable. Fix later.
-    # TODO need to have a
 
-    tempRequest = builder()
+    tempRequest = builder(argdict)
     director = RequestDirector()
     director.construct(tempRequest)
     # TODO check if this is really tempRequest.request or tempRequest.request()
@@ -113,27 +118,11 @@ def Handler
     pass
 
 
-def InvokerPointProcessorSimplePointImageryRequest(request):
-
-
-    pointList = request.get_list_point_coordinates()
-
-    handlers = [HandlerPointBoundingBox,
-                HandlerPointClip,
-                HandlerPointDownloadURL]
-
-    invoker = Invoker()
-
-    for c in handlers:
-        invoker.store_command(c(request))
-
-    invoker.execute_commands()
-
 
 class RequestTypes(Enum):
-    POINTIMAGERY = 1
+    SIMPLEPOINTIMAGERY = 1
     DIVAGIS = 2
-
+    COMPOSITEDPOINTIMAGERY = 3
 
 if __name__ == "__main__":
     main()

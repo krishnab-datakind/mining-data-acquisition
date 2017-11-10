@@ -33,8 +33,8 @@ class DirectorRequestBuilder():
     def __init__(self):
         self.builder = None
 
-    def construct(self, builder):
-        self.builder = builder
+    def construct(self, builder, argdict):
+        self.builder = builder(args)
         self.builder.originate_request()
         self.builder.validate_request()
         self.builder.assign_data()
