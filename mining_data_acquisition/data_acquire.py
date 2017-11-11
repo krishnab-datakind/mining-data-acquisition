@@ -25,9 +25,11 @@ from .ValidationLogic import ValidationLogic
 ImgCollections = registerSatelliteImageryCollections()
 
 @click.group()
+
 @click.option('--startdate', nargs=1, type=str, help='beginning date of request')
 @click.option('--enddate', nargs=1, type=str, help='end date of request')
 @click.option('--directory', type=click.Path(), help='path to target directory for images')
+@click.argument('collection', type=str, help='specify satellite imagery collection')
 @click.argument('filename', type=click.Path(exists=True))
 def acquire_earth_engine(filename, directory, startdate, enddate):
     """Console script for data acquire"""
