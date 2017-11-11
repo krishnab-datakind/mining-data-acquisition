@@ -3,6 +3,8 @@
 """Console script for dk_earth_engine_downloader."""
 
 import click
+import dateparser
+import os
 from enum import Enum
 from .imageCollection import ImageCollection
 from .requestDirector import RequestDirector
@@ -18,36 +20,44 @@ from .HandlerPointClip import HandlerPointClip
 from .HandlerPointDownloadURL import HandlerPointDownloadURL
 from .HandlerURLDownloader import HandlerURLDownloader
 from .BuilderPointImageryRequest import BuilderPointImageryRequest
+from .ValidationLogic import ValidationLogic
 
 
 @click.group()
 @click.option('--startdate', nargs=1, type=str, help='beginning date of request')
 @click.option('--enddate', nargs=1, type=str, help='end date of request')
-@click.option('--dir', type=click.Path(), help='path to target directory for images')
+@click.option('--directory', type=click.Path(), help='path to target directory for images')
 @click.argument('filename', type=click.Path(exists=True))
-def acquire_earth_engine(filename, dir, startdate, enddate):
-    """Console script for dk_earth_engine_downloader."""
+def acquire_earth_engine(filename, directory, startdate, enddate):
+    """Console script for data acquire"""
     click.echo("Replace this message by putting your code into "
                "acquire_earth_engine.cli.main")
 
+    imagecollections = register_sat_image_collections()
 
-    # TODO add the correct variable name here for var
+    settings = {}
+    settings['filename'] = ValidationLogic.isString(filename)
+    settings['directory'] = ValidationLogic.isValidPath(directory) 
+    settings['startdate'] = ValidationLogic.isDateString(startdate)
+    settings['enddate'] = ValidationLogic.isDateString(enddate)
+    if imagery in imagecollections.keys():
+        settings['imageryCollection'] = imagecollections[imagery]
+    else:
+        raise Exception('Choose valid imagery collection.')
 
 
-    if (request_type = RequestTypes.SIMPLEPOINTIMAGERY:
-        request = build_request(BuilderPointImageryRequest, locals())
+
+    if (request_type = RequestTypes.SIMPLEPOINTIMAGERY):
+        request = build_request(BuilderPointImageryRequest, settings)
         InvokerPointProcessorSimplePointImageryRequest(request)
+
     if (request_type = RequestTypes.COMPOSITEDPOINTIMAGERY):
-        request = build_request(BuilderPointImageryRequest, locals())
+        request = build_request(BuilderPointImageryRequest, settings)
 
 
 
 
 
-@click.command()
-@click.option('--radius', type=(int, float), help='image radius around location')
-def points():
-    pass
 
 
 
@@ -93,6 +103,7 @@ def register_sat_image_collections():
                                                                   '10/23/2017')
     }
 
+    return imagecollections
 
 def InvokerSimplePointImageryRequest(request):
 

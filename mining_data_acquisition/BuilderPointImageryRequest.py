@@ -27,15 +27,15 @@ __status__ = 'pre-alpha'
 
 from .abcRequestBuilder import abcRequestBuilder
 from .pointImageryRequest import PointImageryRequest
-from HandlerSetRequestDatesFullSatelliteDateRange import HandlerSetRequestDatesFullSatelliteDateRange
+from .HandlerSetRequestDatesFullSatelliteDateRange import HandlerSetRequestDatesFullSatelliteDateRange
 
 class BuilderPointImageryRequest(abcRequestBuilder):
 
 
 
-    def __init__(self, argsdict):
+    def __init__(self):
         self.request = PointImageryRequest()
-        self.argdict = argdict
+
     def originate_request(self):
         HandlerSetRequestDatesFullSatelliteDateRange()
 
@@ -44,7 +44,7 @@ class BuilderPointImageryRequest(abcRequestBuilder):
         pass
 
     def assign_data(self):
-        pass
+        
 
 
 

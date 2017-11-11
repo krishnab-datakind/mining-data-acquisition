@@ -34,6 +34,7 @@ from enum import Enum
 class abcRequestBuilder(metaclass=abc.ABCMeta):
 
 
+
     @abc.abstractmethod
     def originate_request(self):
         pass
