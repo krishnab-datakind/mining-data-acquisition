@@ -33,6 +33,8 @@ from enum import Enum
 
 class abcRequestBuilder(metaclass=abc.ABCMeta):
 
+    def __init__(self):
+        self.request = None
 
 
     @abc.abstractmethod

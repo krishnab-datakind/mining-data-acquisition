@@ -25,51 +25,38 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from .abcRequestBuilder import abcRequestBuilder
-from .pointImageryRequest import PointImageryRequest
-from .HandlerSetRequestDatesFullSatelliteDateRange import HandlerSetRequestDatesFullSatelliteDateRange
+
+from abcRequestBuilder import abcRequestBuilder
+from pointImageryRequest import PointImageryRequest
+from HandlerSetRequestDatesFullSatelliteDateRange import HandlerSetRequestDatesFullSatelliteDateRange
+from HandlerAssignEEEngineToRequest import HandlerAssignEEEngineToRequest
+from HandlerLoadPointData import HandlerLoadPointData
+from HandlerSetRequestStatus import HandlerSetRequestStatus
 
 class BuilderPointImageryRequest(abcRequestBuilder):
 
 
-
-    def __init__(self):
+    def __init__(self, settings=None):
+        super().__init__()
         self.request = PointImageryRequest()
+        self.request.settings = settings
 
     def originate_request(self):
-        HandlerSetRequestDatesFullSatelliteDateRange()
+        HandlerAssignStatusEnumToRequest(self.request).handle()
+        HandlerAssignEEEngineToRequest(self.request).handle()
+        #TODO make a better handler for full date range. This should be done in cli.
+        HandlerSetRequestDatesFullSatelliteDateRange(self.request).handle()
+        #TODO create handler to set status to ready.
 
 
     def validate_request(self):
+    
+        #TODO create handler to confirm epsg 4236 or to convert to epsg 4236
         pass
 
     def assign_data(self):
-        
 
-
-
-
-class ValidationLogic:
-
-    @classmethod
-    def isnotinteger(cls, value):
-        try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
-
-
-
-
-
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-class Error1(Error):
-    def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
+        HandlerLoadPointData(self.request).handle()
 
 
 class Tests:
@@ -78,9 +65,7 @@ class Tests:
         assert 1 == 1
 
 
-def main():
-    pass
 
 
 if __name__ == "__main__":
-    main()
+    print("This is the builder class for the point imagery request")

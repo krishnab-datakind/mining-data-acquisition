@@ -29,6 +29,14 @@ __status__ = 'pre-alpha'
 import geopandas as gpd
 import dateparser
 import os
+from datetime import datetime
+from aenum import Enum
+from urllib.parse import urlparse
+
+
+# Constants
+
+EEDATEFMT = '%Y-%m-%d'
 
 class ValidationLogic:
 
@@ -81,6 +89,14 @@ class ValidationLogic:
         except ValueError:
             raise IsNotFormattedDate
 
+        #TODO include a set to check if the candidate is a date object or a string. Only if it is a string do I validate, and if date then I just return it.
+    @classmethod
+    def isDatetimeDate(cls, candidate):
+        try:
+            return candidate.strftime(EEDATEFMT)
+        except AttributeError:
+            raise IsNotDatetimeDate
+
     @classmethod
     def isValidImageryCollection(cls, value):
         if (isinstance(value, ee.imagecollection.ImageCollection)):
@@ -95,9 +111,35 @@ class ValidationLogic:
         except:
             raise IsNotValidPath
 
+    @classmethod
+    def isListOfStrings(cls, candidate):
+        if (ValidationLogic.isList(candidate)):
+            for i in candidate:
+                if not ValidationLogic.isString(i):
+                    raise IsNotListOfStrings
+        return candidate
+
+
+
+    @classmethod
+    def isStatus(cls, value):
+        if not (value in abcRequest.Status.__members__):
+            raise NotStatusError
+        else:
+            return value
+
+    def isURL(cls, value):
+        try:
+            result = urlparse(value)
+            if (result.scheme and result.netloc and result.path):
+                return value 
+        except:
+            raise NotAURL
 
 class Error(Exception):
-    """Base class for exceptions in this module."""
+    """
+    Base class for exceptions in this module.
+    """
     pass
 
 class NotInEnum(Error):
@@ -110,7 +152,7 @@ class NotValidSpatialFile(Error):
 
 class IsNotInteger(Error):
     def __init__(self):
-        print('The value entered is not an integer. '
+        print('The value entered is not an integer. ')
 
 class IsNotFloat(Error):
     def __init__(self):
@@ -122,7 +164,7 @@ class IsNegativeValue(Error):
 
 class IsNotString(Error):
     def __init__(self):
-        print('The value entered is not a valid URL. '
+        print('The value entered is not a valid URL. ')
 
 class IsNotList(Error):
     def __init__(self):
@@ -139,6 +181,23 @@ class IsNotImageryCollection(Error):
 class IsNotValidPath(Error):
     def __init__(self):
         print('The path provided is not valid.')
+
+class IsNotListOfStrings(Error):
+    def __init__(self):
+        print('The value entered must be a list of string values \n')
+
+class IsNotDatetimeDate(Error):
+    def __init__(self):
+        print('The date entered was a string and not an actual python datetime.datetime object.\n')
+
+class NotStatusError(Error):
+    def __init__(self):
+        print('The value provided for the Request status must be a valid status.\n')
+
+class NotAURL(Error):
+    def __init__(self):
+        print('The value provided is not a valid URL.\n')
+
 
 
 if __name__ == "__main__":

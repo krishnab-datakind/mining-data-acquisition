@@ -29,25 +29,15 @@ __status__ = 'pre-alpha'
 
 import abc
 from aenum import Enum
-from urllib.parse import urlparse
-
-
-DATEFMT = '%m/%d/%Y'
+from ValidationLogic import ValidationLogic
 
 class abcRequest(metaclass=abc.ABCMeta):
-
-
-
-    class Status(Enum):
-        CLOSED = 0
-        OPEN = 1
-        REJECTED = 2
-        ERROR = 3
 
     def __init__(self):
 
         self.id = uuid.uuid5()  # unique id for request
-        self.status = abcRequest.Status.open # request status--status codes determined in request classes
+        self.statusList = None
+        self.status = 1 # request status--status codes determined in request classes
         self.urllist = []
 
     def get_id(self):
@@ -59,10 +49,15 @@ class abcRequest(metaclass=abc.ABCMeta):
     def get_urllist(self):
         return self.urllist
 
+    def get_statusList(self):
+        return self.statusList
 
     def add_to_urllist(self, candidate):
         self.urllist.append(ValidationLogic.isURL(candidate))
 
+    @abc.abstractmethod
+    def set_statusList(self, candidate):
+        pass
 
     @abc.abstractmethod
     def set_status(self, candidate):
@@ -83,37 +78,6 @@ class abcRequest(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def set_data(self):
         pass
-
-
-class ValidationLogic:
-
-    @classmethod
-    def isStatus(cls, value):
-        if not (value in abcRequest.Status.__members__):
-            raise(NotStatusError)
-        else:
-            return value
-
-    def isURL(cls, value):
-        try:
-            result = urlparse(value)
-            if (result.scheme and result.netloc and result.path):
-                return(value)
-        except:
-            raise(NotAURL)
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-class NotStatusError(Error):
-    def __init__(self, evalue):
-        print('The value provided for the Request status must be a valid status.\n' + str(evalue))
-
-class NotAURL(Error):
-    def __init__(self, evalue):
-        print('The value provided is not a valid URL.\n' + str(evalue))
-
 
 
 

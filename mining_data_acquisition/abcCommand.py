@@ -38,29 +38,6 @@ class abcCommand(metaclass=abc.ABCMeta):
 
 
 
-class ValidationLogic:
-
-    @classmethod
-    def isnotinteger(cls, value):
-        try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
-
-
-
-
-
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-class Error1(Error):
-    def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
-
-
 
 
 

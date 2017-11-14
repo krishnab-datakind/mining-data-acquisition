@@ -25,20 +25,16 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = ''
 
-from .abcHandler import abcHandler
-from .AdapterSpecifyImageryCollection import AdapterSpecifyImageryCollection
+from abcHandler import abcHandler
 
 
 class HandlerSpecifyImageryCollection(abcHandler):
 
     def __init__(self, request):
-        self.adapter = AdapterSpecifyImageryCollection()
         self.request = request
-        self.imageryCollection = request.get_imageryCollection().get_id()
 
     def handle(self):
-        self.request.set_eeCollection(self.adapter.request(self.imageryCollection))
-
+        pass
 
 
 

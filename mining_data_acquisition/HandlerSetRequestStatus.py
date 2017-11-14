@@ -1,8 +1,9 @@
+
 #!/usr/bin/python
 
 """
 
-Handler for authentication to google earth engine.
+Handler class to set status.
 
 """
 
@@ -25,35 +26,16 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from .abcHandler import abcHandler
-from .AdapterInitializeEE import AdapterInitializeEE
+from abcHandler import abcHandler
 
-class HandlerInitializeEarthEngine(abcHandler):
+class HandlerSetRequestStatus(abcHandler):
 
-    def __init__(self):
-        pass
-
+    def __init__(self, newstatus):
+        self.newstatus = newstatus
 
     def handle(self):
-        if True:  # if can_handle:
-            self.adapter = AdapterInitializeEE()
-            self.adapter.request()
-        elif self._successor is not None:
-            self._successor.handle()
-
-
-
-class Tests:
-
-    def test_request_handler(self):
-        tcase = HandlerInitializeEarthEngine()
-        tcase.handle()
-
-
-
-def main():
-    pass
+        self.request.set_status(self.newstatus)
 
 
 if __name__ == "__main__":
-    main()
+    print("This is just a poor handler that updates the status of a request.")

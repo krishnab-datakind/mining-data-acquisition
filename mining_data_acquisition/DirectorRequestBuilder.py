@@ -26,9 +26,9 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from .abcRequest import abcRequest
+from abcRequest import abcRequest
 
-class DirectorRequestBuilder():
+class DirectorRequestBuilder:
 
     def __init__(self):
         self.builder = None

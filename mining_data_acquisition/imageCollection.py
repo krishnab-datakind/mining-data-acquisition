@@ -26,17 +26,17 @@ __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
 from datetime import datetime
-import six
+from ValidationLogic import ValidationLogic
 
-DATEFMT = '%m/%d/%Y'
+
 
 class ImageCollection():
 
     def __init__(self, id, bands, startdate, enddate, resolution):
-        self.id = ValidationLogic.isstring(id)
-        self.bands = ValidationLogic.validate_list_of_strings(bands)
-        self.startdate = ValidationLogic.is_date_string(startdate)
-        self.enddate = ValidationLogic.is_date_string(enddate)
+        self.id = ValidationLogic.isString(id)
+        self.bands = ValidationLogic.isListOfStrings(bands)
+        self.startdate = ValidationLogic.isDateString(startdate)
+        self.enddate = ValidationLogic.isDateString(enddate)
         self.resolution = ValidationLogic.isPositive(resolution)
 
 
@@ -82,61 +82,9 @@ class ImageCollection():
             return False
 
 
-class ValidationLogic:
-
-    @classmethod
-    def islist(cls, value):
-        if not isinstance(value, list):
-            raise IsNotList(e)
-        else:
-            return value
-
-    @classmethod
-    def isstring(cls, value):
-        if not isinstance(value, six.string_types):
-            raise IsNotList
-        else:
-            return value
-
-    @classmethod
-    def validate_list_of_strings(cls, candidate):
-        if (ValidationLogic.islist(candidate)):
-            for i in candidate:
-                if not ValidationLogic.isstring(i):
-                    raise IsNotList
-        return candidate
-
-    @classmethod
-    def is_date_string(cls, candidate):
-        try:
-            return datetime.strptime(candidate, DATEFMT).date()
-        except ValueError:
-            raise IsNotFormattedDate
-
-    @classmethod
-    def isPositive(cls, value):
-        if float(value) < 0:
-            raise IsNegativeValue(value)
-        else:
-            return value
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-class IsNotList(Error):
-    def __init__(self, evalue):
-        print('The value entered must be a list of string values \n' + str(evalue))
-
-class IsNotFormattedDate(Error):
-    def __init__(self, evalue):
-        print('The value provided is not a correctly formatted date value.\n Please provide a date in the format of mm/dd/yyyy')
-
-
-
 class Tests():
 
-    test = ImageCollection('LANDSAT/LC08/C01/T1', ['B1','B2','B3','QA'], '05/01/1998', '12/31/2017')
+    test = ImageCollection('LANDSAT/LC08/C01/T1', ['B1','B2','B3','QA'], '05/01/1998', '12/31/2017', 30)
 
     def test_create_imagecollection_class(self):
         test = ImageCollection('LANDSAT/LC08/C01/T1', ['B1','B2','B3','QA'], '05/01/1998', '12/31/2017')

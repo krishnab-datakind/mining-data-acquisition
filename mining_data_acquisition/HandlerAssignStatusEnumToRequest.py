@@ -1,8 +1,9 @@
-#!/usr/bin/python3
+
+#!/usr/bin/python
 
 """
-Handler Class
 
+Handler class to assign status codes to request.
 
 """
 
@@ -17,54 +18,25 @@ Handler Class
 
 
 __author__ = 'krishna bhogaonker'
-__copyright__ = 'copyright '
+__copyright__ = 'copyright 2017'
 __credits__ = ['krishna bhogaonker']
 __license__ = "MIT"
-__version__ = ''
+__version__ = '0.1.0'
 __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
-__status__ = ''
+__status__ = 'pre-alpha'
+
+from abcHandler import abcHandler
+
+class HandlerAssignStatusEnumToRequest(abcHandler):
 
 
-
-import abc
-import pytest
-
-
-class abcHandler(metaclass=abc.ABCMeta):
-    """
-    Define an interface for handling requests.
-    Implement the successor link.
-    """
-
-    def __init__(self, request, successor=None):
-        self.request = request
-        self.successor = successor
-
-    def get_request(self):
-        return self.request
-
-    @abc.abstractmethod
     def handle(self):
-        pass
+        self.request.set_statusList = self.settings['statusList']
 
-
-class ValidationLogic:
-
-    @classmethod
-    def isSuccessor(value):
-        if not isinstance(value, Handler):
-            raise(NotAHandler)
-
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-class NotAHandler(Error):
-    def __init__(self, evalue):
-        print('The value entered is not a handler: ' + str(evalue))
+        if self.successor is not None:
+            self.successor(self.request).handle()
 
 
 if __name__ == "__main__":
-    print("This is an abstract base class. No functionality available here.")
+    print('This is a handler to assign a status enumeration to a request.')

@@ -27,17 +27,17 @@ __status__ = 'pre-alpha'
 
 from abcHandler import abcHandler
 import geopandas as gpd
+from ValidationLogic import ValidationLogic
+
 
 class HandlerLoadPointData(abcHandler):
 
-    def handle(self, filename):
-        self.request.set_data(filename)
 
+    def handle(self):
+        self.request.set_data(self.request.settings['filename'])
 
-
-
-def main():
-    pass
+        if self.successor is not None:
+            self.successor(self.request).handle()
 
 if __name__ == "__main__":
-    main()
+    print('Handler to load geo data to request.')

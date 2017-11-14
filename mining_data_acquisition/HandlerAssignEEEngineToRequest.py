@@ -1,8 +1,9 @@
+
 #!/usr/bin/python
 
 """
 
-Adapter to initialize earth engine.
+Handler to assign Earth Engine Engine to request.
 
 """
 
@@ -25,26 +26,15 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from .abcAdapterTarget import abcAdapterTarget
-from .ApiInterfacePYInitializeEE import ApiInterfacePYInitializeEE
+from abcHandler import abcHandler
 
-class AdapterInitializeEE(abcAdapterTarget):
-
-    def __init__(self):
-        self.apiinterface = ApiInterfacePYInitializeEE()
-    def request(self):
-        self.apiinterface.specific_request()
+class HandlerAssignEEEngineToRequest(abcHandler):
 
 
-def main():
-    pass
-
-class Tests:
-
-    def test_authentication(self):
-        tcase = AdapterInitializeEE()
-        tcase.request()
-
+    def handle(self):
+        self.request.set_eeCollection(self.settings['imageryCollection'].get_id())
+        if self.successor is not None:
+            self.successor(self.request).handle()
 
 if __name__ == "__main__":
-    main()
+    print('This is just a handler to create a Google Earth Engine imagery Collection on a request.')

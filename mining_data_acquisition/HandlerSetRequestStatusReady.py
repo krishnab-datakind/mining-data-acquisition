@@ -1,8 +1,9 @@
+
 #!/usr/bin/python
 
 """
 
-API interface to Javascript Initialization of Earth Engine Interface.
+Handler class to set status.
 
 """
 
@@ -25,45 +26,15 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-import ee
+from abcHandler import abcHandler
 
-class ApiInterfacePYInitializeEE:
+class HandlerSetRequestStatus(abcHandler):
 
-    def specific_request(self):
-        ValidationLogic.validAuthentication()
+    # TODO Not ready yet. 
 
-
-
-class ValidationLogic:
-
-    @classmethod
-    def validAuthentication(cls):
-        try:
-            ee.Initialize()
-        except:
-            raise NotValidAuthentication(e)
-
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-class NotValidAuthentication(Error):
-    def __init__(self, evalue):
-        print('Unable to initialize Earth Engine. Check authentication credentials: ' + str(evalue))
-
-
-
-class Tests:
-
-    def test_initialization(self):
-        testcase = ApiInterfacePYInitializeEE()
-        testcase.specific_request()
-
-
-def main():
-    pass
+    def handle(self):
+        self.request.set_status(self.)
 
 
 if __name__ == "__main__":
-    main()
+    print("This is just a poor handler that updates the status of a request.")

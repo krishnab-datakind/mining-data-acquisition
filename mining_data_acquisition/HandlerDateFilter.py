@@ -25,7 +25,7 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from .abcHandler import abcHandler
+from abcHandler import abcHandler
 
 class HandlerDateFilter(abcHandler):
 

@@ -26,46 +26,18 @@ __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
 from abcHandler import abcHandler
+from ValidationLogic import ValidationLogic
+
 
 class HandlerSetRequestDatesFullSatelliteDateRange(abcHandler):
 
-    def __init__(self):
-        pass
-
     def handle(self):
-        self.request.startdate = self.request.imageryCollection.get_ImageryCollection().get_startdate()
-        self.request.enddate = self.request.imageryCollection.get_ImageryCollection().get_enddate()
+        self.request.set_startdate(self.request.settings['startdate'])
+        self.request.set_enddate(self.request.settings['enddate'])
+        if self.successor is not None:
+            self.successor(self.request).handle()
 
-
-
-class ValidationLogic:
-
-    @classmethod
-    def isnotinteger(cls, value):
-        try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
-
-
-
-
-
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-class Error1(Error):
-    def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
-
-
-
-
-
-def main()
 
 
 if __name__ == "__main__":
-    main()
+    print('This is a simple handler to set request dates')

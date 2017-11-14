@@ -26,17 +26,16 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from .abcRequest import abcRequest
+from abcRequest import abcRequest
 from aenum import Enum, extend_enum
 import geopandas as gpd
 import ee
-from .abcRequest import DATEFMT
+from ValidationLogic import ValidationLogic
+
 
 ee.Initialize()
 
 class PointImageryRequest(abcRequest):
-
-
 
     class Composites(Enum):
         NONE = 0
@@ -46,7 +45,6 @@ class PointImageryRequest(abcRequest):
 
 
     def __init__(self):
-        self.set_status(abcRequest.Status.OPEN)
         self.imageryCollection = None
         self.epsg = None
         self.radius = None
@@ -56,9 +54,6 @@ class PointImageryRequest(abcRequest):
         self.enddate = None
         self.geodataframe = None
         self.pointiterator = None
-        self.pointRow = None
-        self.pointIndex = None
-        self.add_statuses_to_request()
         self.eeCollection = None
 
 
@@ -82,6 +77,9 @@ class PointImageryRequest(abcRequest):
 
     def get_enddate(self):
         return self.enddate
+
+    def get_current_status(self):
+        return self.status
 
     def get_string_startdate(self):
 
@@ -108,7 +106,7 @@ class PointImageryRequest(abcRequest):
         return [[p.geometry.x, p.geometry.y] for index, p in self.get_data_iterator()]
 
     def set_status(self, candidate):
-        self.status = ValidationLogic.isInEnum(candidate)
+        self.status = ValidationLogic.isInEnum(enumeration, candidate)
 
     def set_data(self, candidate):
 
@@ -120,7 +118,6 @@ class PointImageryRequest(abcRequest):
 
     def set_epsg(self, candidate):
         self.epsg = ValidationLogic.isInteger(ValidationLogic.isPositive(candidate))
-
     def set_startdate(self, candidate):
         self.startdate = ValidationLogic.is_date_string(candidate)
 
@@ -134,15 +131,16 @@ class PointImageryRequest(abcRequest):
         self.compositedFlag = ValidationLogic.isInEnum(candidate)
 
     def set_eeCollection(self, candidate):
-        self.eeCollection = ValidationLogic.is_valid_imagery_collection(candidate)
+        self.eeCollection = ee.ImageCollection(candidate)
 
     def set_ee_filterDate(self, start, end):
         self.eeCollection.filterDate(start, end)
 
+    def set_statusList(self, candidate):
+        self.statusList = candidate
 
     def ee_clip_collection(self):
-
-
+        #TODO remove this function and move to handler.
         for index, row in self.get_data_iterator():
 
             point =  ee.Geometry.Point([row.Geometry.y, row.Geometry.x])
@@ -151,13 +149,6 @@ class PointImageryRequest(abcRequest):
                 return image.clip(point.buffer(self.radius).bounds())
 
             self.eeCollection.map(clipper)
-
-
-
-    def add_statuses_to_request(self):
-        # add additional statuses to enum if needed.
-
-        extend_enum(PointImageryRequest.Status, 'timeout', 4)
 
     def add_band(self, candidate):
         """
@@ -179,122 +170,11 @@ class PointImageryRequest(abcRequest):
 
         self.get_data()[columnname] = None
 
-class ValidationLogic:
-
-
-    @classmethod
-    def isInEnum(cls, value):
-        try:
-            return value
-        except AttributeError:
-            raise(NotInEnum)
-
-    @classmethod
-    def isValidSpatialFile(cls, value):
-        try:
-            return(gpd.read_file(value))
-        except:
-            raise(NotValidSpatialFile)
-
-
-    @classmethod
-    def isInteger(cls, value):
-        try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
-
-
-    @classmethod
-    def isPositive(cls, value):
-        if float(value) < 0:
-            raise IsNegativeValue(value)
-        else:
-            return value
-
-
-    @classmethod
-    def isstring(cls, value):
-        if (isinstance(value, str)):
-            return value
-        else:
-            raise IsNotString
-
-    @classmethod
-    def islist(cls, value):
-
-        if (isinstance(value, list)):
-            return value
-        else:
-            raise IsNotList
-
-    @classmethod
-    def is_date_string(cls, candidate):
-        try:
-            return datetime.strptime(candidate, DATEFMT).date()
-        except ValueError:
-            raise IsNotFormattedDate
-
-    @classmethod
-    def is_valid_imagery_collection(cls, value):
-        if (isinstance(value, ee.imagecollection.ImageCollection)):
-            return value
-        else:
-            raise IsNotImageryCollection
-
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-
-class NotInEnum(Error):
-    def __init__(self, evalue):
-        print('The value entered: ' + str(evalue) + ' is not a valid member of the enum:\n')
-
-class NotValidSpatialFile(Error):
-    def __init__(self,evalue):
-        print('The file provided is not a valid GeoJson or spatial file.\n' + str(evalue))
-
-class IsNotInteger(Error):
-    def __init__(self, evalue):
-        print('The value entered is not an integer: ' + str(evalue))
-
-class IsNotFloat(Error):
-    def __init__(self, evalue):
-        print('The value entered is not a float value: ' + str(evalue))
-
-class IsNegativeValue(Error):
-    def __init__(self, evalue):
-        print('The value entered is a negative value. Negative values are not permitted for this variable: ' + str(evalue))
-
-class IsNotString(Error):
-    def __init__(self, evalue):
-        print('The value entered is not a value URL: ' + str(evalue))
-
-class IsNotList(Error):
-    def __init__(self, evalue):
-        print('The value entered is not a value list of values: ' + str(evalue))
-
-class IsNotFormattedDate(Error):
-    def __init__(self, evalue):
-        print('The value provided is not a correctly formatted date value.\n Please provide a date in the format of mm/dd/yyyy')
-
-class IsNotImageryCollection(Error):
-    def __init__(self, evalue):
-        print('The value provided is not a valid Earth Engine Imagery Collection.')
 
 
 class Tests:
 
     test = PointImageryRequest()
-
-    def test_get_status(self):
-        assert self.test.get_status() == PointImageryRequest.Status.OPEN
-
-    def test_extend_status(self):
-        self.test.set_status(PointImageryRequest.Status.timeout)
-        assert  self.test.get_status() == PointImageryRequest.Status.timeout
 
     def test_set_radius(self):
         self.test.set_radius(300)
