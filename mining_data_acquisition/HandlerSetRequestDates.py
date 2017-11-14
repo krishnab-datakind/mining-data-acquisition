@@ -1,9 +1,8 @@
-
 #!/usr/bin/python
 
 """
 
-Adapter for Point Bounding Box generator.
+Handler to set the dates for a request.
 
 """
 
@@ -26,54 +25,19 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from abcAdapterTarget import abcAdapterTarget
-from .ApiInterfacePYPointBoundingBox import ApiInterfacePYPointBoundingBox
+from abcHandler import abcHandler
+from ValidationLogic import ValidationLogic
 
 
-class AdapterPointBoundingBox(abcAdapterTarget):
+class HandlerSetRequestDates(abcHandler):
 
-    def __init__(self):
-        pass
+    def handle(self):
+        self.request.set_startdate(self.request.settings['startdate'])
+        self.request.set_enddate(self.request.settings['enddate'])
+        if self.successor is not None:
+            self.successor(self.request).handle()
 
-    def request(self,
-                collection,
-                coords,
-                radius):
-
-        return ApiInterfacePYPointBoundingBox(collection,
-                                              coords,
-                                              radius)
-
-
-class ValidationLogic:
-
-    @classmethod
-    def isnotinteger(cls, value):
-        try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
-
-
-
-
-
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-class Error1(Error):
-    def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
-
-
-
-
-
-def main():
-    pass
 
 
 if __name__ == "__main__":
-    main()
+    print('This is a simple handler to set request dates')

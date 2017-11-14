@@ -32,7 +32,7 @@ import os
 from datetime import datetime
 from aenum import Enum
 from urllib.parse import urlparse
-
+from abcHandler import abcHandler
 
 # Constants
 
@@ -119,8 +119,6 @@ class ValidationLogic:
                     raise IsNotListOfStrings
         return candidate
 
-
-
     @classmethod
     def isStatus(cls, value):
         if not (value in abcRequest.Status.__members__):
@@ -128,13 +126,21 @@ class ValidationLogic:
         else:
             return value
 
+    @classmethod
     def isURL(cls, value):
         try:
             result = urlparse(value)
             if (result.scheme and result.netloc and result.path):
-                return value 
+                return value
         except:
             raise NotAURL
+
+    @classmethod
+    def isSuccessor(cls, value):
+        if not isinstance(value, abcHandler):
+            return value
+        else:
+            raise(NotAHandler)
 
 class Error(Exception):
     """
@@ -198,6 +204,9 @@ class NotAURL(Error):
     def __init__(self):
         print('The value provided is not a valid URL.\n')
 
+class NotAHandler(Error):
+    def __init__(self):
+        print('The specified successor is not of type abcHandler.'
 
 
 if __name__ == "__main__":

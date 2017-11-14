@@ -93,13 +93,11 @@ def SimplePointImageryRequest(ctx,
 def build_request(builder, argdict):
 
     # TODO this might not work on the builder() since it is a variable. Fix later.
-
     tempRequest = builder(argdict)
     director = DirectorRequestBuilder()
     director.construct(tempRequest)
     newRequest = tempRequest.request
     return newRequest
-
 
 def registerSatelliteImageryCollections():
 
@@ -140,8 +138,7 @@ def registerSatelliteImageryCollections():
 def InvokerSimplePointImageryRequest(request):
 
     handlers = [HandlerSetRequestDatesFullSatelliteDateRange,
-                HandlerLoadPointData,
-                HandlerInitializeEarthEngine,
+
                 HandlerSpecifyImageryCollection,
                 HandlerDateFilter,
                 InvokerPointProcessorSimplePointImageryRequest

@@ -29,7 +29,7 @@ __status__ = ''
 
 import abc
 import pytest
-
+from ValidationLogic import ValidationLogic
 
 class abcHandler(metaclass=abc.ABCMeta):
     """
@@ -39,7 +39,7 @@ class abcHandler(metaclass=abc.ABCMeta):
 
     def __init__(self, request, successor=None):
         self.request = request
-        self.successor = successor
+        self.successor = ValidationLogic.isSuccessor(successor)
 
     def get_request(self):
         return self.request
@@ -47,24 +47,6 @@ class abcHandler(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def handle(self):
         pass
-
-
-class ValidationLogic:
-
-    @classmethod
-    def isSuccessor(value):
-        if not isinstance(value, Handler):
-            raise(NotAHandler)
-
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-class NotAHandler(Error):
-    def __init__(self, evalue):
-        print('The value entered is not a handler: ' + str(evalue))
-
 
 if __name__ == "__main__":
     print("This is an abstract base class. No functionality available here.")
