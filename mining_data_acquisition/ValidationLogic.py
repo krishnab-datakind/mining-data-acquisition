@@ -14,7 +14,7 @@ This is a module to hold validation logic for other modules.
 
 ## The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-## THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+## THE SOFTWARE IS PROVIDED " AS IS", WITabcHandlerNTY OF ANY abcHandlerESS OR IMPLabcHandlerDING BUT NOabcHandlerTO THE WARRabcHandlerMERCHANTABIabcHandlerESS FOR A PabcHandlerPURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 __author__ = 'krishna bhogaonker'
@@ -67,6 +67,13 @@ class ValidationLogic:
             raise IsNegativeValue(value)
         else:
             return value
+
+    @classmethod
+    def isNumeric(cls, value):
+        try:
+            return float(value)
+        except ValueError:
+            raise IsNotNumeric
 
     @classmethod
     def isString(cls, value):
@@ -208,6 +215,10 @@ class NotAHandler(Error):
     def __init__(self):
         print('The specified successor is not of type abcHandler.'
 
+
+class IsNotNumeric(Error):
+    def __init__(self):
+        print('The specified value must be numeric.'
 
 if __name__ == "__main__":
     main()

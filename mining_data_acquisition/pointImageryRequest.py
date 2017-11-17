@@ -53,8 +53,7 @@ class PointImageryRequest(abcRequest):
         self.startdate = None
         self.enddate = None
         self.geodataframe = None
-        self.pointiterator = None
-        self.eeCollection = None
+
 
 
     def get_imageryCollection(self):
@@ -89,21 +88,8 @@ class PointImageryRequest(abcRequest):
 
         return self.get_enddate().strftime(DATEFMT)
 
-    def get_eeCollection(self):
-        return self.eeCollection
-
     def get_data(self):
         return self.geodataframe
-
-    def get_data_iterator(self):
-        return self.geodataframe.iterrows()
-
-    def get_data_iterator_namedtuple(self):
-        return self.geodataframe.itertuples()
-
-    def get_list_point_coordinates(self):
-
-        return [[p.geometry.x, p.geometry.y] for index, p in self.get_data_iterator()]
 
     def set_status(self, candidate):
         self.status = ValidationLogic.isInEnum(enumeration, candidate)
@@ -113,11 +99,10 @@ class PointImageryRequest(abcRequest):
         self.geodataframe = ValidationLogic.isValidSpatialFile(candidate)
         candidate_epsg =  self.geodataframe.crs['init'].replace('epsg:', '')
         self.set_epsg(candidate_epsg)
-        self.pointiterator = self.get_data_iterator()
-
 
     def set_epsg(self, candidate):
         self.epsg = ValidationLogic.isInteger(ValidationLogic.isPositive(candidate))
+
     def set_startdate(self, candidate):
         self.startdate = ValidationLogic.is_date_string(candidate)
 
@@ -130,40 +115,11 @@ class PointImageryRequest(abcRequest):
     def set_compositedFlag(self, candidate):
         self.compositedFlag = ValidationLogic.isInEnum(candidate)
 
-    def set_eeCollection(self, candidate):
-        self.eeCollection = ee.ImageCollection(candidate)
-
-    def set_ee_filterDate(self, start, end):
-        self.eeCollection.filterDate(start, end)
-
     def set_statusList(self, candidate):
         self.statusList = candidate
 
-    def ee_clip_collection(self):
-        #TODO remove this function and move to handler.
-        for index, row in self.get_data_iterator():
-
-            point =  ee.Geometry.Point([row.Geometry.y, row.Geometry.x])
-
-            def clipper(image):
-                return image.clip(point.buffer(self.radius).bounds())
-
-            self.eeCollection.map(clipper)
 
     def add_band(self, candidate):
-        """
-        This function adds a single band at a time.
-        The request handler will ensure that each band requested actually exists in the imagery collection.
-
-        Essentially, each imagery collection contains specific bands.
-        The Request object does not know which bands a particular collection contains.
-        Hence a user could technically request a band that does not exist, leading to a program error.
-
-        The design here is to allow only a handler to add bands to the request.
-        The handler will have knowledge of the imagery collection as well as the candidate bands.
-        Once the handler knows that a band is valid for the requested collection, the handler will pass that band to the add_band() function.
-
-        """
         self.bands.append(ValidationLogic.isstring(candidate))
 
     def add_column_to_data(self, columnname):

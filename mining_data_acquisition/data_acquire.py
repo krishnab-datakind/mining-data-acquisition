@@ -20,7 +20,7 @@ from HandlerPointDownloadURL import HandlerPointDownloadURL
 from HandlerURLDownloader import HandlerURLDownloader
 from BuilderPointImageryRequest import BuilderPointImageryRequest
 from ValidationLogic import ValidationLogic
-
+from HandlerEESimplePointImageryProcessor import HandlerEESimplePointImageryPointProcessor
 
 
 @click.group()
@@ -84,12 +84,6 @@ def SimplePointImageryRequest(ctx,
     InvokerImageryDownloader(request)
 
 
-
-
-
-
-
-
 def build_request(builder, argdict):
 
     # TODO this might not work on the builder() since it is a variable. Fix later.
@@ -137,11 +131,8 @@ def registerSatelliteImageryCollections():
 
 def InvokerSimplePointImageryRequest(request):
 
-    handlers = [HandlerSetRequestDatesFullSatelliteDateRange,
-
-                HandlerSpecifyImageryCollection,
-                HandlerDateFilter,
-                InvokerPointProcessorSimplePointImageryRequest
+    handlers = [HandlerEESimplePointImageryPointProcessor
+                InvokerImageryDownloader
                 ]
 
     invoker = Invoker()

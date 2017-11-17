@@ -28,13 +28,19 @@ __status__ = 'pre-alpha'
 from abcHandler import abcHandler
 from PointImageryRequest import PointImageryRequest
 
+
+
 class HandlerEESimplePointImageryPointProcessor(abcHandler):
 
 
     def handle(self):
 
         for p in self.request.get_data_namedtuple():
-            
+            HandlerSpecifyImageryCollection(p).handle()
+            HandlerFilterImageryDates(p).handle()
+            HandlerFilterSpatialBoundary(p).handle()
+            HandlerClipImageryCollection(p).handle()
+            HandlerPointDownloadURL(p).handle()
 
 
 if __name__ == "__main__":

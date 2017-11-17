@@ -32,7 +32,7 @@ from HandlerSetRequestDatesFullSatelliteDateRange import HandlerSetRequestDatesF
 from HandlerAssignEEEngineToRequest import HandlerAssignEEEngineToRequest
 from HandlerLoadPointData import HandlerLoadPointData
 from HandlerSetRequestStatus import HandlerSetRequestStatus
-
+from HandlerSetRequestDates import HandlerSetRequestDates
 class BuilderPointImageryRequest(abcRequestBuilder):
 
 
@@ -43,9 +43,8 @@ class BuilderPointImageryRequest(abcRequestBuilder):
 
     def originate_request(self):
         HandlerAssignStatusEnumToRequest(self.request).handle()
-        HandlerAssignEEEngineToRequest(self.request).handle()
+        HandlerSetRequestDates(self.request).handle()
         #TODO make a better handler for full date range. This should be done in cli.
-        HandlerSetRequestDatesFullSatelliteDateRange(self.request).handle()
         #TODO create handler to set status to ready.
 
 
