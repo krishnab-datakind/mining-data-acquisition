@@ -40,30 +40,5 @@ class DirectorRequestBuilder:
         self.builder.assign_data()
 
 
-
-class ValidationLogic:
-
-    @classmethod
-    def isBuilder(value):
-        if not isinstance(value, abcRequest):
-            raise(NotARequest)
-
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-class NotARequest(Error):
-    def __init__(self, evalue):
-        print('The RequestDirector() takes a Builder class as its argument.\n ' + str(evalue))
-
-
-
-
-
-def main():
-    pass
-
-
 if __name__ == "__main__":
-    main()
+    print('Director for the Request Builder Pattern.')

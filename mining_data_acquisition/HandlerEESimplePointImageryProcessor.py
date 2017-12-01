@@ -26,7 +26,6 @@ __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
 from abcHandler import abcHandler
-from PointImageryRequest import PointImageryRequest
 
 
 

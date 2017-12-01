@@ -26,9 +26,7 @@ __email__ = 'cyclotomiq@gmail.com'
 __status__ = ''
 
 
-
 import abc
-import pytest
 from ValidationLogic import ValidationLogic
 
 class abcHandler(metaclass=abc.ABCMeta):

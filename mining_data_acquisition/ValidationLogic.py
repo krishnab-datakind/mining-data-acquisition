@@ -32,7 +32,7 @@ import os
 from datetime import datetime
 from aenum import Enum
 from urllib.parse import urlparse
-from abcHandler import abcHandler
+#from abcHandler import abcHandler
 
 # Constants
 
@@ -213,12 +213,11 @@ class NotAURL(Error):
 
 class NotAHandler(Error):
     def __init__(self):
-        print('The specified successor is not of type abcHandler.'
-
+        print('The specified successor is not of type abcHandler.')
 
 class IsNotNumeric(Error):
     def __init__(self):
-        print('The specified value must be numeric.'
+        print('The specified value must be numeric.')
 
 if __name__ == "__main__":
-    main()
+    print('Validation logic class')

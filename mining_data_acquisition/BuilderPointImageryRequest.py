@@ -28,7 +28,6 @@ __status__ = 'pre-alpha'
 
 from abcRequestBuilder import abcRequestBuilder
 from pointImageryRequest import PointImageryRequest
-from HandlerSetRequestDatesFullSatelliteDateRange import HandlerSetRequestDatesFullSatelliteDateRange
 from HandlerAssignEEEngineToRequest import HandlerAssignEEEngineToRequest
 from HandlerLoadPointData import HandlerLoadPointData
 from HandlerSetRequestStatus import HandlerSetRequestStatus
