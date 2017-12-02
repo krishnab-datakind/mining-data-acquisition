@@ -37,23 +37,16 @@ ee.Initialize()
 
 class PointImageryRequest(abcRequest):
 
-    class Composites(Enum):
-        NONE = 0
-        MONTHLY = 1
-        QUARTERLY = 2
-        YEARLY = 3
-
 
     def __init__(self):
+        super().__init__()
         self.imageryCollection = None
         self.epsg = None
         self.radius = None
         self.bands = []
-        self.compositedFlag = False
         self.startdate = None
         self.enddate = None
         self.geodataframe = None
-
 
 
     def get_imageryCollection(self):
@@ -67,9 +60,6 @@ class PointImageryRequest(abcRequest):
 
     def get_bands(self):
         return self.bands
-
-    def get_compositedFlag(self):
-        return self.compositedFlag
 
     def get_startdate(self):
         return self.startdate
@@ -92,7 +82,7 @@ class PointImageryRequest(abcRequest):
         return self.geodataframe
 
     def set_status(self, candidate):
-        self.status = ValidationLogic.isInEnum(enumeration, candidate)
+        self.status = ValidationLogic.isInEnum(PointImageryRequestStatusCodes, candidate)
 
     def set_data(self, candidate):
 
@@ -104,29 +94,31 @@ class PointImageryRequest(abcRequest):
         self.epsg = ValidationLogic.isInteger(ValidationLogic.isPositive(candidate))
 
     def set_startdate(self, candidate):
-        self.startdate = ValidationLogic.is_date_string(candidate)
+        self.startdate = ValidationLogic.isDateString(candidate)
 
     def set_enddate(self, candidate):
-        self.enddate = ValidationLogic.is_date_string(candidate)
+        self.enddate = ValidationLogic.isDateString(candidate)
 
     def set_radius(self, candidate):
         self.radius = ValidationLogic.isPositive(candidate)
 
-    def set_compositedFlag(self, candidate):
-        self.compositedFlag = ValidationLogic.isInEnum(candidate)
-
     def set_statusList(self, candidate):
         self.statusList = candidate
-
 
     def add_band(self, candidate):
         self.bands.append(ValidationLogic.isstring(candidate))
 
     def add_column_to_data(self, columnname):
-
         self.get_data()[columnname] = None
+ 
 
-
+class PointImageryRequestStatusCodes(Enum):
+    CLOSED = 0
+    CREATED = 1
+    READYTOPROCESS = 2
+    PROCESSING = 3
+    READYTODOWNLOAD = 4
+    COMPLETED = 5
 
 class Tests:
 
@@ -150,4 +142,4 @@ class Tests:
 
 
 if __name__ == "__main__":
-    main()
+    print('This is a point imagery request base class.')

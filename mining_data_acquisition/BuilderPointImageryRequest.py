@@ -28,10 +28,14 @@ __status__ = 'pre-alpha'
 
 from abcRequestBuilder import abcRequestBuilder
 from pointImageryRequest import PointImageryRequest
+from pointImageryRequest import PointImageryRequestStatusCodes
 from HandlerAssignEEEngineToRequest import HandlerAssignEEEngineToRequest
 from HandlerLoadPointData import HandlerLoadPointData
 from HandlerSetRequestStatus import HandlerSetRequestStatus
 from HandlerSetRequestDates import HandlerSetRequestDates
+from HandlerSetRadius import HandlerSetRadius
+
+
 class BuilderPointImageryRequest(abcRequestBuilder):
 
 
@@ -43,18 +47,19 @@ class BuilderPointImageryRequest(abcRequestBuilder):
     def originate_request(self):
         HandlerAssignStatusEnumToRequest(self.request).handle()
         HandlerSetRequestDates(self.request).handle()
-        #TODO make a better handler for full date range. This should be done in cli.
-        #TODO create handler to set status to ready.
-
-
-    def validate_request(self):
-    
-        #TODO create handler to confirm epsg 4236 or to convert to epsg 4236
-        pass
+        HandlerSetRadius(self.request).handle()
+        HandlerSetImageCollection(self.request).handle()
 
     def assign_data(self):
 
         HandlerLoadPointData(self.request).handle()
+
+    def validate_request(self):
+    
+        #TODO create handler to confirm epsg 4236 or to convert to epsg 4236
+        HandlerSetRequestStatus(self.request).handle(PointImageryRequestStatusCodes.READYTOPROCESS)
+      
+
 
 
 class Tests:

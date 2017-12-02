@@ -32,12 +32,17 @@ from ValidationLogic import ValidationLogic
 class HandlerSetRequestDates(abcHandler):
 
     def handle(self):
-        self.request.set_startdate(self.request.settings['startdate'])
-        self.request.set_enddate(self.request.settings['enddate'])
+
+        if self.request.settings['startdate'] is not None:
+            self.request.set_startdate(self.request.settings['startdate'])
+        else self.request.set_startdate(self.request.settings['collection'].get_startdate())
+
+        if self.request.settings['enddate'] is not None:
+            self.request.set_enddate(self.request.settings['enddate'])
+        else self.request.set_enddate(self.request.settings['collection'].get_enddate())
+ 
         if self.successor is not None:
-            self.successor(self.request).handle()
-
-
+            self.successor(self.request).handle(2)
 
 if __name__ == "__main__":
     print('This is a simple handler to set request dates')

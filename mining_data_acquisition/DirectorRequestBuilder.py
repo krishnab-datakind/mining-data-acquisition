@@ -26,19 +26,15 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from abcRequest import abcRequest
+from abcDirector import abcDirector
 
-class DirectorRequestBuilder:
-
-    def __init__(self):
-        self.builder = None
+class DirectorRequestBuilder(abcDirector):
 
     def construct(self, builder, argdict):
         self.builder = builder(argdict)
         self.builder.originate_request()
-        self.builder.validate_request()
         self.builder.assign_data()
-
+        self.builder.validate_request()
 
 if __name__ == "__main__":
     print('Director for the Request Builder Pattern.')

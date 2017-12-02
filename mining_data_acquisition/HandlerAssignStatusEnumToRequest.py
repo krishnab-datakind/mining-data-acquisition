@@ -32,7 +32,7 @@ class HandlerAssignStatusEnumToRequest(abcHandler):
 
 
     def handle(self):
-        self.request.set_statusList = self.request.settings['statusList']
+        self.request.set_statusList(self.request.settings['statusList'])
 
         if self.successor is not None:
             self.successor(self.request).handle()

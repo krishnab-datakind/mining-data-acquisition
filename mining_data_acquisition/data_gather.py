@@ -72,15 +72,16 @@ def SimplePointImageryRequest(ctx,
 
     """Download raw point imagery patches from EE collection."""
 
+    imgCollections = registerSatelliteImageryCollections()
+
     ctx.obj['filename'] = filename
     ctx.obj['radius'] = ValidationLogic.isPositive(radius)
-    ctx.obj['collection'] = collection
+    ctx.obj['collection'] = imgCollections.get(collection)
     ctx.obj['statusList'] = PointImageryRequestStatusCodes
     settings = ctx.obj
 
     request = build_request(BuilderPointImageryRequest, settings)
     InvokerPointProcessorSimplePointImageryRequest(request)
-    InvokerImageryDownloader(request)
 
 
 def build_request(builder, dictSettings):
@@ -130,17 +131,9 @@ def registerSatelliteImageryCollections():
 
 def InvokerSimplePointImageryRequest(request):
 
-    handlers = [HandlerEESimplePointImageryPointProcessor
-                ]
-
-    invoker = Invoker()
-
-    for c in handlers:
-        invoker.store_command(c(request).handle())
-
-
-    invoker.execute_commands()
-
+    pass
+    PointProcessor(request).handle()
+    Download(request).handle()
 
 def InvokerImageryDownloader(request):
     pass
@@ -151,13 +144,6 @@ class RequestTypes(Enum):
     DIVAGIS = 2
     COMPOSITEDPOINTIMAGERY = 3
 
-class PointImageryRequestStatusCodes(Enum):
-    CLOSED = 0
-    CREATED = 1
-    READYTOPROCESS = 2
-    PROCESSING = 3
-    READYTODOWNLOAD = 4
-    COMPLETED = 5
 
 
 cli.add_command(SimplePointImageryRequest)

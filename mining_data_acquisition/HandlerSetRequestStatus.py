@@ -30,12 +30,11 @@ from abcHandler import abcHandler
 
 class HandlerSetRequestStatus(abcHandler):
 
-    def __init__(self, newstatus):
-        self.newstatus = newstatus
+    def handle(self, newstatus):
+        self.request.set_status(newstatus)
 
-    def handle(self):
-        self.request.set_status(self.newstatus)
-
-
+        if self.successor is not None:
+            self.successor(self.request).handle()
+            
 if __name__ == "__main__":
     print("This is just a poor handler that updates the status of a request.")
