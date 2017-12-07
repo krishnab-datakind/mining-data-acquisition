@@ -31,16 +31,17 @@ import abc
 from aenum import Enum
 import uuid
 from ValidationLogic import ValidationLogic
+from PackageConstants import RequestStatusCodes
+
 
 class abcRequest(metaclass=abc.ABCMeta):
 
-    def __init__(self):
+    def __init__(self, settings=None):
 
         self.id = uuid.uuid4()  # unique id for request
-        self.statusList = None
-        self.status = 1 # request status--status codes determined in request classes
-        self.urllist = []
-        self.settings = None
+        self.status = 1
+        self.settings = settings
+        self.request = None
 
     def get_id(self):
         return self.id
@@ -48,31 +49,20 @@ class abcRequest(metaclass=abc.ABCMeta):
     def get_status(self):
         return self.status
 
-    def get_urllist(self):
-        return self.urllist
+    def get_settings(self):
+        return self.settings
 
-    def get_statusList(self):
-        return self.statusList
+    def set_status_closed(self):
+        self.status = 0
 
-    def add_to_urllist(self, candidate):
-        self.urllist.append(ValidationLogic.isURL(candidate))
-
-    @abc.abstractmethod
-    def set_statusList(self, candidate):
-        pass
-
-    @abc.abstractmethod
     def set_status(self, candidate):
-        pass
+        self.status = candidate
 
     @abc.abstractmethod
-    def get_data(self):
+    def set_request_type(self):
         pass
 
-
-    @abc.abstractmethod
-    def set_data(self):
-        pass
+    
 
 
 
