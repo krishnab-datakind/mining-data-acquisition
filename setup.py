@@ -27,24 +27,24 @@ test_requirements = [
 ]
 
 setup(
-    name='mining_data_acquisition',
+    name='data_gather',
     version='0.1.0',
     description="pull satellite imagery and other data from the web for use in the datakind mining project.",
     long_description=readme + '\n\n' + history,
     author="krishna bhogaonker",
     author_email='cyclotomiq@gmail.com',
     url='https://github.com/00krishna/mining_data_acquisition',
-    packages=find_packages(include=['mining_data_acquisition']),
+    packages=find_packages(include=['data_gather']),
     entry_points={
         'console_scripts': [
-            'mining_data_acquisition=mining_data_acquisition.cli:main'
+            'data_gather=data_gather.cli:main'
         ]
     },
     include_package_data=True,
     install_requires=requirements,
     license="MIT license",
     zip_safe=False,
-    keywords='mining_data_acquisition',
+    keywords='data_gather',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',

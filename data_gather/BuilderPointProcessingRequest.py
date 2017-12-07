@@ -1,8 +1,9 @@
+
 #!/usr/bin/python
 
 """
 
-Handler to set the dates for a request.
+Builder class for point processing request.
 
 """
 
@@ -25,24 +26,13 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from abcHandler import abcHandler
-from ValidationLogic import ValidationLogic
+from abcRequestBuilder import abcRequestBuilder
 
+class BuilderPointProcessingRequest(abcRequestBuilder):
 
-class HandlerSetRequestDates(abcHandler):
+    def __init__(self, settings=None):
+        self.request = 
 
-    def handle(self):
-
-        if self.request.settings['startdate'] is not None:
-            self.request.set_startdate(self.request.settings['startdate'])
-        else self.request.set_startdate(self.request.settings['collection'].get_startdate())
-
-        if self.request.settings['enddate'] is not None:
-            self.request.set_enddate(self.request.settings['enddate'])
-        else self.request.set_enddate(self.request.settings['collection'].get_enddate())
- 
-        if self.successor is not None:
-            self.successor(self.request).handle(2)
 
 if __name__ == "__main__":
-    print('This is a simple handler to set request dates')
+    print('BuilderPointProcessingRequest class.')
