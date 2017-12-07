@@ -35,6 +35,6 @@ class HandlerSetRequestStatus(abcHandler):
 
         if self.successor is not None:
             self.successor(self.request).handle()
-            
+
 if __name__ == "__main__":
     print("This is just a poor handler that updates the status of a request.")

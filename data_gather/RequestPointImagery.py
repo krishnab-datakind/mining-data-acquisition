@@ -3,7 +3,7 @@
 
 """
 
-Handler Point Clipper to Buffer.
+Point imagery request class
 
 """
 
@@ -26,42 +26,13 @@ __maintainer__ = 'krishna bhogaonker'
 __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
-from abcHandler import abcHandler
+from abcRequest import abcRequest
 
-class HandlerPointClip(abcHandler):
-
-    def handle(self):
-        pass
-
-
-class ValidationLogic:
-
-    @classmethod
-    def isnotinteger(cls, value):
-        try:
-            return int(value)
-        except ValueError as e:
-            raise IsNotInteger(e)
+class RequestPointImagery(abcRequest):
 
 
 
 
-
-
-class Error(Exception):
-    """Base class for exceptions in this module."""
-    pass
-
-class Error1(Error):
-    def __init__(self, evalue):
-        print('The value entered is invalid: ' + str(evalue))
-
-
-
-
-
-def main():
-    pass
 
 
 if __name__ == "__main__":

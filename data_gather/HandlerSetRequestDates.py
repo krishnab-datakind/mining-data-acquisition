@@ -1,9 +1,8 @@
-
 #!/usr/bin/python
 
 """
 
-Handler class to assign status codes to request.
+Handler to set the dates for a request.
 
 """
 
@@ -27,16 +26,23 @@ __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
 from abcHandler import abcHandler
+from ValidationLogic import ValidationLogic
 
-class HandlerAssignStatusEnumToRequest(abcHandler):
 
+class HandlerSetRequestDates(abcHandler):
 
     def handle(self):
-        self.request.set_statusList(self.request.settings['statusList'])
 
+        if self.request.settings['startdate'] is not None:
+            self.request.set_startdate(self.request.settings['startdate'])
+        else self.request.set_startdate(self.request.settings['collection'].get_startdate())
+
+        if self.request.settings['enddate'] is not None:
+            self.request.set_enddate(self.request.settings['enddate'])
+        else self.request.set_enddate(self.request.settings['collection'].get_enddate())
+ 
         if self.successor is not None:
             self.successor(self.request).handle()
 
-
 if __name__ == "__main__":
-    print('This is a handler to assign a status enumeration to a request.')
+    print('This is a simple handler to set request dates')

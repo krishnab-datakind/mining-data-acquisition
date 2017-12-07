@@ -41,7 +41,7 @@ class abcPoint(metaclass=abc.ABCMeta):
         self.downloadSettings = {}
         self.startdate = None
         self.enddate = None
-        self.metadata = None
+        self.metadata = {}
 
     def get_latitude(self):
         return self.latitude

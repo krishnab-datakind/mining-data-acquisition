@@ -59,8 +59,6 @@ def cli(ctx,
 
 
 @click.command()
-# TODO get the choice to work on the collection argument.
-# TODO fix the issue with `Missing Argument directory` not showing up. 
 @click.argument('collection', type=click.Choice(['Landsat8', 'Landsat7', 'Landsat5']))
 @click.argument('filename', type=click.Path(exists=True))
 @click.argument('radius', type=int)
