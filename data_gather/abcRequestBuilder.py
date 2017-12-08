@@ -42,12 +42,13 @@ class abcRequestBuilder(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def validate_request(self):
+    def assign_data(self):
         pass
 
     @abc.abstractmethod
-    def assign_data(self):
+    def validate_request(self):
         pass
+
 
 
 

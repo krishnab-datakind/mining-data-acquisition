@@ -28,8 +28,41 @@ __status__ = 'pre-alpha'
 
 from abcRequest import abcRequest
 
-class RequestPointImagery(abcRequest):
+class RequestEEPointImagery(abcRequest):
 
+    def __init__(self, settings):
+        super().__init__(settings)
+        self.latitude = self.settings['latitude']
+        self.longitude = self.settings['longitude']
+        self.epsg = self.settings['epsg']
+        self.radius = self.settings['radius']
+        self.startdate = self.settings['startdate']
+        self.enddate = self.settings['enddate']
+        self.bands = self.settings['bands']
+        self.ee = None
+
+    def get_latitude(self):
+        return self.latitude
+
+    def get_longitude(self):
+        return self.longitude
+
+    def get_epsg(self):
+        return self.epsg
+
+    def get_radius(self):
+        return self.radius
+
+    def get_startdate(self):
+        return self.startdate
+
+    def get_enddate(self):
+        return self.enddate
+
+    def get_bands(self):
+        return self.bands
+
+    
 
 
 

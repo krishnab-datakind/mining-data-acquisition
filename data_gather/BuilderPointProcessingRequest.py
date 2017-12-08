@@ -27,11 +27,14 @@ __email__ = 'cyclotomiq@gmail.com'
 __status__ = 'pre-alpha'
 
 from abcRequestBuilder import abcRequestBuilder
+from RequestPointImagery import RequestPointImagery
+
 
 class BuilderPointProcessingRequest(abcRequestBuilder):
 
     def __init__(self, settings=None):
-        self.request = 
+        super().__init__()
+        self.request = RequestPointImagery()
 
 
 if __name__ == "__main__":
