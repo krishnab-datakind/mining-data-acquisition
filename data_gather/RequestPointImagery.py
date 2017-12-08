@@ -62,7 +62,8 @@ class RequestEEPointImagery(abcRequest):
     def get_bands(self):
         return self.bands
 
-    
+
+
 
 
 
